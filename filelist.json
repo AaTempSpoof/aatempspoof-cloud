@@ -1,88 +1,95 @@
 {
   "version": 1,
-  "generated": 1783967808,
+  "generated": 1783969786,
   "files": [
+    {
+      "path": "AaTempSpoof_v14.4.zip",
+      "size": 8762785,
+      "mtime": 1783969786,
+      "sha256": "c39a351fa7e7b1a7f66d1510b0b0277565b6e4775cafd7325b2ae668de9b2fb3",
+      "domain": "main"
+    },
     {
       "path": "changelog.md",
       "size": 1583,
-      "mtime": 1783967808,
+      "mtime": 1783969786,
       "sha256": "d34cd1871f237a2897dad94ff8b61e1de042c44185067d101cc16ac2fb83b424",
       "domain": "main"
     },
     {
       "path": "cloud.json",
       "size": 257,
-      "mtime": 1783967808,
-      "sha256": "d9ae699dd92f48769485b8e3bbfa7eb7fe6235fdad020355772ca5a28568f0eb",
+      "mtime": 1783969786,
+      "sha256": "329f092f7b93354c57b30589a4f9be8f7c8079475a3e21b0e136273c90f1f962",
       "domain": "main"
     },
     {
       "path": "cloud.txt",
       "size": 257,
-      "mtime": 1783967808,
-      "sha256": "87cc83847fed88bb16e67b91c2578e5d9894134929bbfe4f8b5e53c15baeb438",
+      "mtime": 1783969786,
+      "sha256": "13140c4ab2430d6d3070ca1f12f75e87c93853ed50de35fa60cd35ed7afac1ce",
       "domain": "main"
     },
     {
       "path": "register.html",
       "size": 17582,
-      "mtime": 1783967808,
+      "mtime": 1783969786,
       "sha256": "75a570e6201a31b3f9dc3c138341b8b2046c277995cc65f98411c5a7ebad5b2e",
       "domain": "main"
     },
     {
       "path": "register.sh",
       "size": 2854,
-      "mtime": 1783967808,
+      "mtime": 1783969786,
       "sha256": "b8a34c002b1a65cde8fd89a3b44f93c65bd56cd2f4ae032781e204d896f66db4",
       "domain": "main"
     },
     {
       "path": "sponsor-qr.png",
       "size": 198952,
-      "mtime": 1783967808,
+      "mtime": 1783969786,
       "sha256": "a0bade882ef0c7ee36e755af02bede38efa5bbbfd2201c38b8e35f36d4db00de",
       "domain": "main"
     },
     {
       "path": "sponsor.html",
       "size": 16318,
-      "mtime": 1783967808,
+      "mtime": 1783969786,
       "sha256": "e4938204ea439954d3919f246fa6d94dee5d95f10c1d490a99e93de0b8e57a95",
       "domain": "main"
     },
     {
       "path": "update.json",
       "size": 211,
-      "mtime": 1783967808,
+      "mtime": 1783969786,
       "sha256": "d32c7415dc933e4140cb4127fa8b73d3e33547b3511188a2eab300cc00e0afab",
       "domain": "main"
     },
     {
       "path": "捐赠名单.md",
       "size": 4337,
-      "mtime": 1783967808,
+      "mtime": 1783969786,
       "sha256": "d7cbf1582f1e53deb39fb3fbf61bee2218369af54e2c104c551f9a87d880579a",
       "domain": "main"
     },
     {
       "path": "捐赠名单.md.sig",
       "size": 129,
-      "mtime": 1783967808,
+      "mtime": 1783969786,
       "sha256": "ac04089f6f8fc9e5384b56bc02928bb799ab7d908ec9d7f3990629d0d8239952",
       "domain": "main"
     },
     {
       "path": "黑名单.md",
       "size": 32,
-      "mtime": 1783967808,
+      "mtime": 1783969786,
       "sha256": "b00f6891144227b9b3cac523ca13c093bc07b934719eb56c39edafee9844f4f8",
       "domain": "main"
     },
     {
       "path": "黑名单.md.sig",
       "size": 129,
-      "mtime": 1783967808,
+      "mtime": 1783969786,
       "sha256": "f6df9df6c83a7011f72e56b6b5e650dc786ffae9f343b8cf90eb1e316e77500b",
       "domain": "main"
     }
