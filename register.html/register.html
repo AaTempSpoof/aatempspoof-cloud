@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="referrer" content="no-referrer">
+  <title>AaTempSpoof 注册审核</title>
+  <style>
+    :root{--bg:#fff;--tx:#171a21;--tx2:#737b88;--line:#d8dde5;--soft:#f6f7f9;--ok:#16803c;--err:#b42318;--shade:rgba(16,20,28,.36)}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    main{width:min(100%,520px);margin:0 auto;padding:28px 18px 34px}
+    header{padding:10px 0 18px;border-bottom:1px solid var(--line)}
+    h1{margin:0;font-size:28px;line-height:1.15;letter-spacing:0}
+    .muted{margin-top:8px;color:var(--tx2);font-size:14px;line-height:1.55}
+    form{display:grid;gap:14px;margin-top:22px}
+    label{display:grid;gap:7px;font-size:14px;font-weight:760}
+    input{width:100%;height:46px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--tx);padding:0 12px;font-size:16px;outline:none}
+    input:focus{border-color:#8b94a3}
+    input:disabled{background:var(--soft);color:#9aa2af}
+    button{height:46px;border:1px solid #c8d0dc;border-radius:8px;background:#fff;color:var(--tx);font-size:16px;font-weight:800;display:grid;place-items:center}
+    button:disabled{color:#9aa2af;background:var(--soft)}
+    .result{display:none;margin-top:16px;border:1px solid var(--line);border-radius:8px;padding:12px;font-size:14px;line-height:1.55;word-break:break-word}
+    .result.ok{display:block;border-color:#b7dfc5;color:var(--ok);background:#f6fff8}
+    .result.err{display:block;border-color:#efc4c0;color:var(--err);background:#fff7f6}
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:var(--shade);padding:18px;z-index:20}
+    .modal.show{display:flex}
+    .dialog{width:min(100%,430px);border:1px solid var(--line);border-radius:8px;background:#fff;padding:18px;box-shadow:0 18px 50px rgba(20,25,35,.16)}
+    .dialog h2{margin:0 0 8px;font-size:20px;line-height:1.25}
+    .dialog p{margin:0;color:var(--tx2);font-size:14px;line-height:1.65}
+    .dialog-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .input-action-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end}
+    .input-action-row>label{min-width:0}
+    .compact-action{height:46px;padding:0 10px;font-size:14px;white-space:nowrap}
+    #get-id{min-width:84px}
+    #send-code{min-width:104px}
+    .email-panel{display:grid;gap:14px}
+    .email-panel[hidden]{display:none}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+    @media(max-width:420px){main{padding:22px 14px 30px}h1{font-size:25px}}
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>AaTempSpoof 注册审核</h1>
+    </header>
+
+    <form id="form" autocomplete="off">
+      <div class="input-action-row">
+        <label>主板 ID
+          <input id="id" name="id" inputmode="text" required minlength="4" maxlength="96" placeholder="请输入设备主板 ID">
+        </label>
+        <button id="get-id" class="compact-action" type="button">获取 ID</button>
+      </div>
+      <input id="ts" name="ts" type="hidden">
+      <input id="sig" name="sig" type="hidden">
+      <input id="nonce" name="nonce" type="hidden">
+      <label>QQ 号
+        <input id="qq" name="qq" inputmode="numeric" required maxlength="32" placeholder="请输入 QQ 号">
+      </label>
+      <label>QQ 昵称
+        <input id="nickname" name="nickname" required maxlength="60" placeholder="请输入 QQ 昵称">
+      </label>
+      <div id="email-panel" class="email-panel" aria-busy="true">
+        <label>你的邮箱
+          <input id="email-address" type="email" autocomplete="email" maxlength="254" placeholder="请输入你的邮箱" disabled>
+        </label>
+        <div class="input-action-row">
+          <label>邮箱验证码
+            <input id="email-code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="请输入 6 位验证码" disabled>
+          </label>
+          <button id="send-code" class="compact-action" type="button" disabled>获取验证码</button>
+        </div>
+      </div>
+      <button id="submit" type="submit" disabled>提交审核</button>
+    </form>
+
+    <div id="result" class="result"></div>
+  </main>
+  <div id="id-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="id-modal-title">
+    <div class="dialog">
+      <h2 id="id-modal-title">获取设备主板 ID</h2>
+      <p>下载获取脚本后，在需要注册的设备上使用 root 权限执行。脚本只会显示主板 ID，复制后回到本页填写注册。</p>
+      <div class="dialog-actions">
+        <button id="modal-cancel" type="button">取消</button>
+        <button id="modal-go" type="button">跳转</button>
+      </div>
+    </div>
+  </div>
+  <div id="group-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="group-modal-title">
+    <div class="dialog">
+      <h2 id="group-modal-title">加入捐赠用户交流群</h2>
+      <p>是否加入捐赠用户 QQ 交流群？</p>
+      <div class="dialog-actions">
+        <button id="group-cancel" type="button">暂不加入</button>
+        <button id="group-go" type="button">加入群聊</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const CLOUD_CONFIG_URL = new URL('cloud.txt', location.href).toString();
+    const REGISTER_LINK_MIN_TS = 1783532889;
+    const form = document.getElementById('form');
+    const result = document.getElementById('result');
+    const submitBtn = document.getElementById('submit');
+    const getIdBtn = document.getElementById('get-id');
+    const idModal = document.getElementById('id-modal');
+    const modalCancel = document.getElementById('modal-cancel');
+    const modalGo = document.getElementById('modal-go');
+    const groupModal = document.getElementById('group-modal');
+    const groupCancel = document.getElementById('group-cancel');
+    const groupGo = document.getElementById('group-go');
+    const idInput = document.getElementById('id');
+    const tsInput = document.getElementById('ts');
+    const sigInput = document.getElementById('sig');
+    const nonceInput = document.getElementById('nonce');
+    const emailPanel = document.getElementById('email-panel');
+    const emailInput = document.getElementById('email-address');
+    const emailCodeInput = document.getElementById('email-code');
+    const sendCodeBtn = document.getElementById('send-code');
+    let emailEnabled = false;
+    let emailBound = false;
+    let emailStatusLoaded = false;
+    let registerLinkValid = false;
+    let resendTimer = null;
+    let apiBaseCache = '';
+
+    function showResult(type, text) {
+      result.className = 'result ' + type;
+      result.textContent = text;
+    }
+
+    function clean(value) {
+      return String(value || '').replace(/\s+/g, '').trim();
+    }
+
+    async function loadApiBase(forceReload) {
+      if (forceReload) apiBaseCache = '';
+      if (apiBaseCache) return apiBaseCache;
+      if (/\.trycloudflare\.com$/i.test(location.hostname)) {
+        apiBaseCache = location.origin;
+        return apiBaseCache;
+      }
+      const configUrl = CLOUD_CONFIG_URL + (CLOUD_CONFIG_URL.includes('?') ? '&' : '?') + '_=' + Date.now();
+      const resp = await fetch(configUrl, { cache: 'no-store', referrerPolicy: 'no-referrer' });
+      const text = await resp.text();
+      if (!resp.ok) throw new Error('云端入口读取失败: HTTP ' + resp.status);
+      const match = text.match(/^api=(https:\/\/[-A-Za-z0-9.]+\.trycloudflare\.com)\s*$/m);
+      if (!match) throw new Error('云端入口配置无效');
+      apiBaseCache = match[1].replace(/\/+$/, '');
+      return apiBaseCache;
+    }
+
+    async function apiFetch(path, options) {
+      const requestOptions = Object.assign({ cache: 'no-store', referrerPolicy: 'no-referrer' }, options || {});
+      let base = await loadApiBase(false);
+      try {
+        const resp = await fetch(base + path, requestOptions);
+        if ([502, 503, 504, 530].includes(resp.status)) throw new Error('云端入口不可用: HTTP ' + resp.status);
+        return resp;
+      } catch (error) {
+        apiBaseCache = '';
+        base = await loadApiBase(true);
+        return fetch(base + path, requestOptions);
+      }
+    }
+
+    function isExpiredRegisterLink(ts) {
+      const value = Number(ts);
+      if (!Number.isFinite(value) || value <= 0) return true;
+      const seconds = value >= 1000000000000 ? Math.floor(value / 1000) : value;
+      return seconds < REGISTER_LINK_MIN_TS;
+    }
+
+    function fillFromLink() {
+      const rawParams = location.hash.length > 1 ? location.hash.slice(1) : location.search.slice(1);
+      const params = new URLSearchParams(rawParams);
+      const id = clean(params.get('id'));
+      const qq = clean(params.get('qq'));
+      const ts = clean(params.get('ts'));
+      const sig = clean(params.get('sig'));
+      const nonce = clean(params.get('nonce'));
+      const nickname = String(params.get('nickname') || '').trim();
+      if (rawParams) {
+        try { history.replaceState(null, '', location.pathname); } catch (_) {}
+      }
+      if (id) idInput.value = id;
+      if (ts) tsInput.value = ts;
+      if (sig) sigInput.value = sig;
+      if (nonce) nonceInput.value = nonce;
+      if (qq) document.getElementById('qq').value = qq;
+      if (nickname) document.getElementById('nickname').value = nickname;
+      if (id || (ts && isExpiredRegisterLink(ts))) {
+        emailPanel.hidden = true;
+        emailPanel.setAttribute('aria-busy', 'false');
+        submitBtn.disabled = true;
+        showResult('err', '注册链接已失效，请联系管理员获取新链接');
+      } else if (ts && sig && nonce) {
+        registerLinkValid = true;
+        showResult('ok', '注册链接已载入，请填写设备信息');
+      } else {
+        emailPanel.hidden = true;
+        emailPanel.setAttribute('aria-busy', 'false');
+        showResult('err', '注册链接缺少签名，请联系管理员获取新链接');
+      }
+    }
+
+    async function loadEmailStatus() {
+      if (!registerLinkValid) return;
+      submitBtn.disabled = true;
+      try {
+        const resp = await apiFetch('/email/status', {
+          method: 'POST',
+          referrerPolicy: 'no-referrer',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ ts: tsInput.value, sig: sigInput.value, nonce: nonceInput.value }),
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (!resp.ok || data.ok === false) throw new Error(data.message || ('HTTP ' + resp.status));
+        emailEnabled = !!data.enabled;
+        emailStatusLoaded = true;
+        emailPanel.hidden = !emailEnabled;
+        emailPanel.setAttribute('aria-busy', 'false');
+        if (emailEnabled) {
+          emailBound = !!data.emailBound;
+          emailInput.type = emailBound ? 'text' : 'email';
+          emailInput.readOnly = emailBound;
+          emailInput.required = !emailBound;
+          emailInput.disabled = false;
+          emailCodeInput.disabled = false;
+          sendCodeBtn.disabled = false;
+          sendCodeBtn.textContent = emailBound ? '重新获取' : '获取验证码';
+          emailInput.value = emailBound ? (data.emailMasked || '已绑定') : '';
+          showResult('ok', emailBound ? '注册链接已载入，请完成邮箱验证' : '注册链接已载入，请填写自己的邮箱');
+        }
+        submitBtn.disabled = false;
+      } catch (error) {
+        emailStatusLoaded = false;
+        emailPanel.setAttribute('aria-busy', 'false');
+        submitBtn.disabled = true;
+        showResult('err', '邮箱验证状态读取失败: ' + (error.message || String(error)));
+      }
+    }
+
+    function startResendCountdown(seconds) {
+      if (resendTimer) clearInterval(resendTimer);
+      let left = Math.max(1, Number(seconds || 60));
+      sendCodeBtn.disabled = true;
+      sendCodeBtn.textContent = left + ' 秒';
+      resendTimer = setInterval(() => {
+        left -= 1;
+        if (left <= 0) {
+          clearInterval(resendTimer);
+          resendTimer = null;
+          sendCodeBtn.disabled = false;
+          sendCodeBtn.textContent = '重新获取';
+        } else {
+          sendCodeBtn.textContent = left + ' 秒';
+        }
+      }, 1000);
+    }
+
+    sendCodeBtn.addEventListener('click', async () => {
+      const email = emailBound ? '' : String(emailInput.value || '').trim().toLowerCase();
+      if (!emailBound && (!email || !emailInput.checkValidity())) {
+        showResult('err', '请输入有效邮箱');
+        emailInput.focus();
+        return;
+      }
+      sendCodeBtn.disabled = true;
+      sendCodeBtn.textContent = '发送中...';
+      showResult('ok', '正在发送邮箱验证码...');
+      try {
+        const resp = await apiFetch('/email/send-code', {
+          method: 'POST',
+          referrerPolicy: 'no-referrer',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ ts: tsInput.value, sig: sigInput.value, nonce: nonceInput.value, email }),
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (!resp.ok || data.ok === false) throw new Error(data.message || ('HTTP ' + resp.status));
+        emailBound = true;
+        emailInput.type = 'text';
+        emailInput.readOnly = true;
+        emailInput.required = false;
+        emailInput.value = data.emailMasked || email;
+        showResult('ok', data.message || '验证码已发送');
+        emailCodeInput.focus();
+        startResendCountdown(data.retryAfter || 60);
+      } catch (error) {
+        sendCodeBtn.disabled = false;
+        sendCodeBtn.textContent = '获取验证码';
+        showResult('err', '验证码发送失败: ' + (error.message || String(error)));
+      }
+    });
+
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      const id = clean(idInput.value);
+      const qq = clean(document.getElementById('qq').value);
+      const ts = clean(tsInput.value);
+      const sig = clean(sigInput.value);
+      const nonce = clean(nonceInput.value);
+      const emailCode = clean(emailCodeInput.value);
+      const nickname = String(document.getElementById('nickname').value || '').trim();
+      if (!id || !ts || !sig || !nonce) {
+        showResult('err', '注册链接缺少签名，请联系管理员获取新链接');
+        return;
+      }
+      if (isExpiredRegisterLink(ts)) {
+        showResult('err', '注册链接已失效，请联系管理员获取新链接');
+        return;
+      }
+      if (!qq || !nickname) {
+        showResult('err', '请填写完整信息');
+        return;
+      }
+      if (!emailStatusLoaded) {
+        showResult('err', '邮箱验证状态尚未载入');
+        return;
+      }
+      if (emailEnabled && !emailBound) {
+        showResult('err', '请先填写邮箱并发送验证码');
+        return;
+      }
+      if (emailEnabled && !/^\d{6}$/.test(emailCode)) {
+        showResult('err', '请输入 6 位邮箱验证码');
+        return;
+      }
+      submitBtn.disabled = true;
+      submitBtn.textContent = '提交中...';
+      showResult('ok', '正在连接审核服务器...');
+      try {
+        const resp = await apiFetch('/submit', {
+          method: 'POST',
+          referrerPolicy: 'no-referrer',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ id, qq, nickname, ts, sig, nonce, emailCode }),
+        });
+        const text = await resp.text();
+        let data = null;
+        try { data = JSON.parse(text); } catch (_) { data = null; }
+        if (!resp.ok || (data && data.ok === false)) {
+          throw new Error((data && data.message) || text || ('HTTP ' + resp.status));
+        }
+        showResult('ok', (data && data.message) || text || '提交成功，请等待审核');
+        groupModal.classList.add('show');
+      } catch (error) {
+        const msg = error && error.message ? error.message : String(error || '');
+        if (/failed to fetch|networkerror|load failed/i.test(msg)) {
+          showResult('err', '提交失败: 请开启 VPN 后重试');
+        } else {
+          showResult('err', '提交失败: ' + msg);
+        }
+      } finally {
+        submitBtn.disabled = !emailStatusLoaded;
+        submitBtn.textContent = '提交审核';
+      }
+    });
+
+    function closeIdModal() {
+      idModal.classList.remove('show');
+    }
+
+    getIdBtn.addEventListener('click', () => {
+      idModal.classList.add('show');
+    });
+
+    modalCancel.addEventListener('click', closeIdModal);
+    idModal.addEventListener('click', event => {
+      if (event.target === idModal) closeIdModal();
+    });
+    modalGo.addEventListener('click', () => {
+      location.href = new URL('register.sh', location.href).toString();
+    });
+
+    function closeGroupModal() {
+      groupModal.classList.remove('show');
+    }
+
+    groupCancel.addEventListener('click', closeGroupModal);
+    groupModal.addEventListener('click', event => {
+      if (event.target === groupModal) closeGroupModal();
+    });
+    groupGo.addEventListener('click', () => {
+      location.href = 'https://qm.qq.com/q/70dbrHBlZ0';
+    });
+
+    fillFromLink();
+    loadEmailStatus();
+  </script>
+</body>
+</html>
