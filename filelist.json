@@ -1,95 +1,60 @@
 {
   "version": 1,
-  "generated": 1784046743,
+  "generated": 1784048069,
   "files": [
     {
-      "path": "AaTempSpoof_v14.4.zip",
-      "size": 8762785,
-      "mtime": 1784046743,
-      "sha256": "c39a351fa7e7b1a7f66d1510b0b0277565b6e4775cafd7325b2ae668de9b2fb3",
-      "domain": "main"
-    },
-    {
-      "path": "changelog.md",
-      "size": 30,
-      "mtime": 1784046742,
-      "sha256": "99129dc1f3241407f0f130edc094c6818b39c74aa3d43b69ec29b8e241cf8694",
-      "domain": "main"
-    },
-    {
       "path": "cloud.json",
-      "size": 260,
-      "mtime": 1784046742,
-      "sha256": "e4f979bbb20b628a373d791d52bbefd1544dcd49ddf8a5099ea466a5d2042c45",
+      "size": 257,
+      "mtime": 1784048068,
+      "sha256": "b69173a18c7927a0b2a6d83e5143a7bb9d1c556df83dfbc9c61d2a226de0c532",
       "domain": "main"
     },
     {
       "path": "cloud.txt",
-      "size": 260,
-      "mtime": 1784046742,
-      "sha256": "1b4782a62dc9a6d0ac5bcd008712c40e035d23b08fd9bc4f312e05b00df89cf6",
-      "domain": "main"
-    },
-    {
-      "path": "register.html",
-      "size": 17582,
-      "mtime": 1784046742,
-      "sha256": "75a570e6201a31b3f9dc3c138341b8b2046c277995cc65f98411c5a7ebad5b2e",
-      "domain": "main"
-    },
-    {
-      "path": "register.sh",
-      "size": 2854,
-      "mtime": 1784046742,
-      "sha256": "b8a34c002b1a65cde8fd89a3b44f93c65bd56cd2f4ae032781e204d896f66db4",
+      "size": 257,
+      "mtime": 1784048068,
+      "sha256": "d2f4e3726b78acaf08820a5a299d26fef178a8c7da01e1fdcb8e01c19a22192f",
       "domain": "main"
     },
     {
       "path": "sponsor-qr.png",
       "size": 198952,
-      "mtime": 1784046742,
+      "mtime": 1784048069,
       "sha256": "a0bade882ef0c7ee36e755af02bede38efa5bbbfd2201c38b8e35f36d4db00de",
       "domain": "main"
     },
     {
       "path": "sponsor.html",
       "size": 16279,
-      "mtime": 1784046742,
+      "mtime": 1784048068,
       "sha256": "ef7a0023e66d09f83e1412d15dcd04a6cf6545645de02d49bc3cee9b9bec05b6",
       "domain": "main"
     },
     {
-      "path": "update.json",
-      "size": 211,
-      "mtime": 1784046742,
-      "sha256": "d32c7415dc933e4140cb4127fa8b73d3e33547b3511188a2eab300cc00e0afab",
-      "domain": "main"
-    },
-    {
       "path": "捐赠名单.md",
-      "size": 4667,
-      "mtime": 1784046742,
-      "sha256": "f21021647177b019eae778eedc8a45c95a864c0557d6f2380195bb0682b213ec",
+      "size": 31,
+      "mtime": 1784048069,
+      "sha256": "185fb9e01c2a541097346d3ab6634baf9b0a784b8afb5cf4de03f44a341ff1fb",
       "domain": "main"
     },
     {
       "path": "捐赠名单.md.sig",
       "size": 129,
-      "mtime": 1784046742,
-      "sha256": "3035e404a921e90d4e3a3da5ccd717081fb42033c3627d6d908643d3b10183ea",
+      "mtime": 1784048069,
+      "sha256": "f0a6ba6a7516857adee1fbac0efb6be8fa3ea6971970a367e6da69b13c132f67",
       "domain": "main"
     },
     {
       "path": "黑名单.md",
       "size": 32,
-      "mtime": 1784046742,
+      "mtime": 1784048069,
       "sha256": "b00f6891144227b9b3cac523ca13c093bc07b934719eb56c39edafee9844f4f8",
       "domain": "main"
     },
     {
       "path": "黑名单.md.sig",
       "size": 129,
-      "mtime": 1784046742,
+      "mtime": 1784048069,
       "sha256": "f6df9df6c83a7011f72e56b6b5e650dc786ffae9f343b8cf90eb1e316e77500b",
       "domain": "main"
     }
