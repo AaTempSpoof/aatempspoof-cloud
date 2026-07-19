@@ -1,4 +1,4 @@
-# AaTempSpoof v14.5 更新公告
+# AaTempSpoof v14.5 更新公告(测试版本谨慎更新)
 
 ## WebUI
 
