@@ -127,6 +127,8 @@
     let registerLinkValid = false;
     let resendTimer = null;
     let apiBaseCache = '';
+    let emailStatusRetryTimer = null;
+    let emailStatusLoading = false;
 
     function showResult(type, text) {
       result.className = 'result ' + type;
@@ -137,6 +139,25 @@
       return String(value || '').replace(/\s+/g, '').trim();
     }
 
+    function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function fetchWithTimeout(url, options, timeoutMs) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        return await fetch(url, Object.assign({}, options || {}, { signal: controller.signal }));
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+
+    function isRetryableApiError(error) {
+      const text = String((error && error.message) || error || '').toLowerCase();
+      return /云端入口|failed to fetch|networkerror|load failed|abort|timeout|timed out/.test(text);
+    }
+
     async function loadApiBase(forceReload) {
       if (forceReload) apiBaseCache = '';
       if (apiBaseCache) return apiBaseCache;
@@ -145,7 +166,7 @@
         return apiBaseCache;
       }
       const configUrl = CLOUD_CONFIG_URL + (CLOUD_CONFIG_URL.includes('?') ? '&' : '?') + '_=' + Date.now();
-      const resp = await fetch(configUrl, { cache: 'no-store', referrerPolicy: 'no-referrer' });
+      const resp = await fetchWithTimeout(configUrl, { cache: 'no-store', referrerPolicy: 'no-referrer' }, 10000);
       const text = await resp.text();
       if (!resp.ok) throw new Error('云端入口读取失败: HTTP ' + resp.status);
       const match = text.match(/^api=(https:\/\/[-A-Za-z0-9.]+\.trycloudflare\.com)\s*$/m);
@@ -154,18 +175,26 @@
       return apiBaseCache;
     }
 
-    async function apiFetch(path, options) {
+    async function apiFetch(path, options, maxAttempts = 2) {
       const requestOptions = Object.assign({ cache: 'no-store', referrerPolicy: 'no-referrer' }, options || {});
-      let base = await loadApiBase(false);
-      try {
-        const resp = await fetch(base + path, requestOptions);
-        if ([502, 503, 504, 530].includes(resp.status)) throw new Error('云端入口不可用: HTTP ' + resp.status);
-        return resp;
-      } catch (error) {
+      const attempts = Math.max(1, Number(maxAttempts) || 1);
+      let lastError = null;
+      for (let attempt = 0; attempt < attempts; attempt += 1) {
+        if (attempt > 0) await wait(Math.min(3000, 500 + attempt * 500));
+        try {
+          const refresh = attempt > 0 || !/\.trycloudflare\.com$/i.test(location.hostname);
+          const base = await loadApiBase(refresh);
+          const resp = await fetchWithTimeout(base + path, requestOptions, 12000);
+          if ([502, 503, 504, 530].includes(resp.status)) {
+            throw new Error('云端入口不可用: HTTP ' + resp.status);
+          }
+          return resp;
+        } catch (error) {
+          lastError = error;
+        }
         apiBaseCache = '';
-        base = await loadApiBase(true);
-        return fetch(base + path, requestOptions);
       }
+      throw lastError || new Error('云端入口暂时不可用');
     }
 
     function isExpiredRegisterLink(ts) {
@@ -209,7 +238,12 @@
     }
 
     async function loadEmailStatus() {
-      if (!registerLinkValid) return;
+      if (!registerLinkValid || emailStatusLoading) return;
+      emailStatusLoading = true;
+      if (emailStatusRetryTimer) {
+        clearTimeout(emailStatusRetryTimer);
+        emailStatusRetryTimer = null;
+      }
       submitBtn.disabled = true;
       try {
         const resp = await apiFetch('/email/status', {
@@ -217,7 +251,7 @@
           referrerPolicy: 'no-referrer',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: new URLSearchParams({ ts: tsInput.value, sig: sigInput.value, nonce: nonceInput.value }),
-        });
+        }, 4);
         const data = await resp.json().catch(() => ({}));
         if (!resp.ok || data.ok === false) throw new Error(data.message || ('HTTP ' + resp.status));
         emailEnabled = !!data.enabled;
@@ -241,7 +275,14 @@
         emailStatusLoaded = false;
         emailPanel.setAttribute('aria-busy', 'false');
         submitBtn.disabled = true;
-        showResult('err', '邮箱验证状态读取失败: ' + (error.message || String(error)));
+        if (isRetryableApiError(error)) {
+          showResult('ok', '云端入口正在自动切换，恢复后会自动继续');
+          emailStatusRetryTimer = setTimeout(loadEmailStatus, 5000);
+        } else {
+          showResult('err', '邮箱验证状态读取失败: ' + (error.message || String(error)));
+        }
+      } finally {
+        emailStatusLoading = false;
       }
     }
 
@@ -351,7 +392,7 @@
       } catch (error) {
         const msg = error && error.message ? error.message : String(error || '');
         if (/failed to fetch|networkerror|load failed/i.test(msg)) {
-          showResult('err', '提交失败: 请开启 VPN 后重试');
+          showResult('err', '提交失败: 云端入口正在自动切换，请稍后重试');
         } else {
           showResult('err', '提交失败: ' + msg);
         }
