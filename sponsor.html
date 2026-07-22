@@ -296,7 +296,7 @@
         <p class="lead">赞助用于支持项目维护与后续更新。完成付款确认后，一次性注册链接将发送到您填写的邮箱。</p>
         <div class="threshold">
           <span>自动识别规则</span>
-          <strong>6元以上即可</strong>
+          <strong>5元以上即可</strong>
         </div>
       </div>
 
@@ -326,9 +326,9 @@
         <div class="amount-band">
           <div>
             <div class="amount-label">本次赞助金额</div>
-            <div class="amount-help">支付6元以上即可，可按自己的意愿多付。</div>
+            <div class="amount-help">支付5元以上即可，可按自己的意愿多付。</div>
           </div>
-          <div class="amount-value"><span id="amount">6.00</span> 元以上</div>
+          <div class="amount-value"><span id="amount">5.00</span> 元以上</div>
         </div>
 
         <div class="qr-wrap">
@@ -337,7 +337,7 @@
 
         <ol class="steps">
           <li>使用微信扫描上方赞赏码。</li>
-          <li>支付6元以上金额，可多付。</li>
+          <li>支付5元以上金额，可多付。</li>
           <li>付款后保持本页打开，系统确认后会将一次性注册链接发送到邮箱。</li>
           <li>请同时检查收件箱和垃圾邮件目录。</li>
         </ol>
@@ -477,7 +477,7 @@
         if (!response.ok || !data.ok) throw new Error(data.message || '邮箱登记失败');
         intentId = data.id;
         expiresAt = Number(data.expiresAt || 0);
-        amount.textContent = '6.00';
+        amount.textContent = '5.00';
         emailSummary.textContent = `注册链接将发送至 ${data.emailMasked}`;
         form.hidden = true;
         paymentStage.hidden = false;
