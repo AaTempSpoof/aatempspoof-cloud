@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1784858648,
+  "generated": 1784866394,
   "files": [
     {
       "path": "AaTempSpoof",
@@ -26,10 +26,10 @@
     },
     {
       "path": "AaTempSpoof_v14.6(测试).zip",
-      "size": 8259728,
-      "mtime": 1784855613,
+      "size": 8259613,
+      "mtime": 1784866394,
       "domain": "main",
-      "gitSha": "9db30156c157e354decb9267907f6344843112a1"
+      "gitSha": "2e355aed1f2af6797831142003d23bbafcd19df3"
     },
     {
       "path": "changelog.md",
@@ -42,18 +42,18 @@
     {
       "path": "cloud.json",
       "size": 250,
-      "mtime": 1784858648,
+      "mtime": 1784866394,
       "domain": "main",
-      "gitSha": "aa27a75ecb57cbb574230fbeac36b6cc57e66b2f",
-      "sha256": "329dac20598ff8e94678f3683082058d5bba46e4d7580589f7f2d73daf6d76a2"
+      "gitSha": "e3c139f35b43eb4b4c1f65cdd9e12c3398c73822",
+      "sha256": "9f97b8571417389243c60ac6d4cb64601a5dc6372b2668571bcd538363e31f9b"
     },
     {
       "path": "cloud.txt",
       "size": 250,
-      "mtime": 1784858648,
+      "mtime": 1784866394,
       "domain": "main",
-      "gitSha": "479193e519335ab79e8719f6562df2284ab6e2c1",
-      "sha256": "e1dd60c67425f356265115e8d2721919d75557cef0e203baaffb2ab12e38d94d"
+      "gitSha": "1e50ae686386adabf3e3697b374bd07c38a49cb8",
+      "sha256": "821313a9591dc99b3adc9ce72f3c5098b68fa17a6638ffdd467a930ec5410e81"
     },
     {
       "path": "index.html",
@@ -103,19 +103,19 @@
     },
     {
       "path": "捐赠名单.md",
-      "size": 7513,
-      "mtime": 1784857827,
+      "size": 7524,
+      "mtime": 1784866394,
       "domain": "main",
-      "gitSha": "9b89ac2a2acd7df471b677726d7a35d25efa1331",
-      "sha256": "576d8bf0851449519fe7d2c11a4008aee24567a5bbfe54f56826d03be204eba3"
+      "gitSha": "25b27cddd78d034c9aba401f52335e9266642469",
+      "sha256": "61ed7f38161772833b8b3a4307a1b463170fffd76e541df95e660fe26ca175da"
     },
     {
       "path": "捐赠名单.md.sig",
       "size": 129,
-      "mtime": 1784857827,
+      "mtime": 1784866394,
       "domain": "main",
-      "gitSha": "8fead8bf595595159c3166d55bb75fd1180bed78",
-      "sha256": "968c1ef682ac971218d0d78c06b2289b1a1162287fee21929bbb0738a47b0225"
+      "gitSha": "ca982d3ade61b0757f7914e2bb3c39369727f367",
+      "sha256": "0c7ac4a763f9805d233e1df9e3f4beb12ccd5563164013f304b9e6ef89df16c6"
     },
     {
       "path": "黑名单.md",
