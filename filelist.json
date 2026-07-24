@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1784912386,
+  "generated": 1784912524,
   "files": [
     {
       "path": "AaTempSpoof_v14.4.zip",
@@ -32,20 +32,28 @@
       "sha256": "b58753943cd8806ebc5f65ffd279d1e05553bad2ec4b6487e4b64a1c234cabab"
     },
     {
-      "path": "cloud.json",
-      "size": 245,
-      "mtime": 1784912386,
+      "path": "cloud-entry.js",
+      "size": 7275,
+      "mtime": 1784912524,
       "domain": "main",
-      "gitSha": "b4891b3e6e37e5d518f1506ec1529270bd0d5a5f",
-      "sha256": "9e6939ea170d66fb6733390f08110ab4936f87c0d62b9ead5fe27368b4a13e18"
+      "gitSha": "2e37662fb34fb0432bac3f0d6d761e2a421649ed",
+      "sha256": "e11cf1dc4463088542ecacccffb0ace1b2bb964f1847630f54bbdcd6d39beec0"
+    },
+    {
+      "path": "cloud.json",
+      "size": 248,
+      "mtime": 1784912524,
+      "domain": "main",
+      "gitSha": "e0d83ae0e0003ffcc6e6e5d8fee9009acdecfb46",
+      "sha256": "f5101c96c209bb8d4fa88127490173a654624528f177a56f73d8384cf1ed9e17"
     },
     {
       "path": "cloud.txt",
-      "size": 245,
-      "mtime": 1784912386,
+      "size": 248,
+      "mtime": 1784912524,
       "domain": "main",
-      "gitSha": "cb6baad38fc38de018db70a9ca361e91f7109879",
-      "sha256": "a775c5b02c9503fc5a8ee497249f3a3586972260c90cd9f9888bbdff57d1f3ed"
+      "gitSha": "d96e55eb1d78680f5f79c51ef3b921c0355dd480",
+      "sha256": "2d96d9312835a1955605ac303378cf8271115557176e621af98f0260948eae41"
     },
     {
       "path": "index.html",
@@ -56,11 +64,11 @@
     },
     {
       "path": "register.html",
-      "size": 19261,
-      "mtime": 1784799915,
+      "size": 17484,
+      "mtime": 1784912524,
       "domain": "main",
-      "gitSha": "e2728189e288f0bdb7415b35ecb8b1b149bab2d1",
-      "sha256": "969c9959b126dc20100792504f0be141fbcd0a08363472940c22fe40bc70f47a"
+      "gitSha": "bb7bd4a806f3fbf122e17da2cf536b3a9974c58d",
+      "sha256": "a70ebe945ae5fcb2385095d2dcb4d415bb7d5ecc06e733268d587f7070edaf82"
     },
     {
       "path": "register.sh",
@@ -80,11 +88,11 @@
     },
     {
       "path": "sponsor.html",
-      "size": 16279,
-      "mtime": 1784799915,
+      "size": 14958,
+      "mtime": 1784912524,
       "domain": "main",
-      "gitSha": "a48e57a3a5b10396503b21213e647d79013acb84",
-      "sha256": "a47578111c8d79e582676c8d98b10026bc01aa9091292df8448230134db146a8"
+      "gitSha": "f01dc465be128e3810236666f24f04bd32d6da8b",
+      "sha256": "e557aa556b222835ba509181c52dc8619215ec2bebb0eb8cf175e2555abd6fc9"
     },
     {
       "path": "update.json",
