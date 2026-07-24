@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1784908725,
+  "generated": 1784909305,
   "files": [
     {
       "path": "AaTempSpoof_v14.4.zip",
@@ -17,18 +17,11 @@
       "gitSha": "cc4dab48061e11235dfda7770d11a5a6c2f58e61"
     },
     {
-      "path": "AaTempSpoof_v14.6(测试).zip",
+      "path": "AaTempSpoof_v14.6.zip",
       "size": 8311869,
-      "mtime": 1784905113,
+      "mtime": 1784909305,
       "domain": "main",
       "gitSha": "fbdd290697fed8feeb98bd46102d03c71c1397dc"
-    },
-    {
-      "path": "AaTempSpoof_v14.6.zip",
-      "size": 8308017,
-      "mtime": 1784902023,
-      "domain": "main",
-      "gitSha": "0f3c8f017b1c85285ed2510ae0b88b4e728893c7"
     },
     {
       "path": "changelog.md",
@@ -40,19 +33,19 @@
     },
     {
       "path": "cloud.json",
-      "size": 257,
-      "mtime": 1784908725,
+      "size": 245,
+      "mtime": 1784909305,
       "domain": "main",
-      "gitSha": "2c7e4a7e7a8a2c51498d7d573d62811529585445",
-      "sha256": "1334599fcfb2acc8272fe794150423e6d20254c6c01ba08bfbc9860de272c3a6"
+      "gitSha": "159277b8e64c4197445b79e02b046133a88b742a",
+      "sha256": "52438906386f3789d6842313e3784627d9aef28e071beb17966c247f42c4d637"
     },
     {
       "path": "cloud.txt",
-      "size": 257,
-      "mtime": 1784908725,
+      "size": 245,
+      "mtime": 1784909305,
       "domain": "main",
-      "gitSha": "5785257c855eaa9409d363a3dcd250dfe5366e82",
-      "sha256": "dadec3f718744fe6af0039cee2cb8680a77a80599ea4affcc483ea4040786c0c"
+      "gitSha": "10fd050651d3990a72603b7b017382bdc441a145",
+      "sha256": "c5695d71d0bc655a5cdeb47c240d71a2212c0e29802160be332d5d005ec59ee0"
     },
     {
       "path": "index.html",
