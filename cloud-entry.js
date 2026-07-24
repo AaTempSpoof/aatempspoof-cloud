@@ -2,6 +2,7 @@
   'use strict';
 
   var RAW_CONFIG_URL = 'https://raw.githubusercontent.com/AaTempSpoof/aatempspoof-cloud/main/cloud.txt';
+  var GITHUB_API_CONFIG_URL = 'https://api.github.com/repos/AaTempSpoof/aatempspoof-cloud/contents/cloud.txt?ref=main';
   var STORAGE_KEY = 'aats.cloud.endpoint.v2';
   var memoryBase = '';
   var memoryExpires = 0;
@@ -114,6 +115,26 @@
       });
   }
 
+  function githubApiCandidate() {
+    return fetchWithTimeout(GITHUB_API_CONFIG_URL, { cache: 'no-store', referrerPolicy: 'no-referrer' }, 6500)
+      .then(function (response) {
+        if (!response.ok) throw makeRetryable('GitHub 备用入口读取失败: HTTP ' + response.status);
+        return response.text();
+      })
+      .then(function (text) {
+        var data;
+        var content;
+        try {
+          data = JSON.parse(text);
+          content = global.atob(String(data.content || '').replace(/\s+/g, ''));
+        } catch (_) {
+          throw makeRetryable('GitHub 备用入口配置无效');
+        }
+        var entry = parseConfig(content);
+        return probe(entry.base).then(function (base) { return { base: base, expires: entry.expires }; });
+      });
+  }
+
   function firstSuccess(tasks) {
     return new Promise(function (resolve, reject) {
       var pending = tasks.length;
@@ -162,7 +183,10 @@
     // Raw 提交可见后立即使用；Pages 仅作静态网页和配置备用。
     tasks.push(function () { return configCandidate(RAW_CONFIG_URL); });
     tasks.push(function () { return configCandidate(pageConfigUrl()); });
-    resolving = firstSuccess(tasks).then(function (entry) {
+    resolving = firstSuccess(tasks).catch(function () {
+      // 仅在 Raw 与 Pages 都不能得到可用入口时使用 GitHub API，避免日常消耗 API 额度。
+      return githubApiCandidate();
+    }).then(function (entry) {
       resolving = null;
       return saveBase(entry.base, entry.expires);
     }, function (error) {
