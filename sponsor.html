@@ -353,8 +353,8 @@
     <footer>一次性注册链接仅供本人使用，请勿转发。</footer>
   </main>
 
+  <script src="cloud-entry.js"></script>
   <script>
-    const CLOUD_CONFIG_URL = new URL('cloud.txt', location.href).toString();
     const form = document.getElementById('sponsorForm');
     const emailInput = document.getElementById('email');
     const confirmedInput = document.getElementById('confirmed');
@@ -372,37 +372,9 @@
     let expiresAt = 0;
     let statusTimer = 0;
     let countdownTimer = 0;
-    let apiBaseCache = '';
-
-    async function loadApiBase(forceReload) {
-      if (forceReload) apiBaseCache = '';
-      if (apiBaseCache) return apiBaseCache;
-      if (/\.trycloudflare\.com$/i.test(location.hostname)) {
-        apiBaseCache = location.origin;
-        return apiBaseCache;
-      }
-      const configUrl = CLOUD_CONFIG_URL + (CLOUD_CONFIG_URL.includes('?') ? '&' : '?') + '_=' + Date.now();
-      const response = await fetch(configUrl, { cache: 'no-store', referrerPolicy: 'no-referrer' });
-      const text = await response.text();
-      if (!response.ok) throw new Error('云端入口读取失败: HTTP ' + response.status);
-      const match = text.match(/^api=(https:\/\/[-A-Za-z0-9.]+\.trycloudflare\.com)\s*$/m);
-      if (!match) throw new Error('云端入口配置无效');
-      apiBaseCache = match[1].replace(/\/+$/, '');
-      return apiBaseCache;
-    }
-
     async function apiFetch(path, options) {
-      const requestOptions = Object.assign({ cache: 'no-store', referrerPolicy: 'no-referrer' }, options || {});
-      let base = await loadApiBase(false);
-      try {
-        const response = await fetch(base + path, requestOptions);
-        if ([502, 503, 504, 530].includes(response.status)) throw new Error('云端入口不可用: HTTP ' + response.status);
-        return response;
-      } catch (error) {
-        apiBaseCache = '';
-        base = await loadApiBase(true);
-        return fetch(base + path, requestOptions);
-      }
+      if (!window.AaTempCloud) throw new Error('云端入口脚本未加载');
+      return window.AaTempCloud.request(path, options, 3);
     }
 
     function setStatus(text, paid = false) {
