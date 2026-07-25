@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1784947891,
+  "generated": 1784949206,
   "files": [
     {
       "path": "AaTempSpoof_v14.4.zip",
@@ -42,18 +42,18 @@
     {
       "path": "cloud.json",
       "size": 256,
-      "mtime": 1784947891,
+      "mtime": 1784949206,
       "domain": "main",
-      "gitSha": "24a757819309dfa675d21bdb8b69cc8684c2d5cb",
-      "sha256": "0076998db4457f59f898758797a39c962471ce2b3ad68d3c36649d2a4508a37c"
+      "gitSha": "6db690d0eec58dbdbaba97323e3b8dd2ee8e73d5",
+      "sha256": "5e6444ce92d801a4788710b1f53b602a24c8928bdd9daae1c21d2e7548044b60"
     },
     {
       "path": "cloud.txt",
       "size": 256,
-      "mtime": 1784947891,
+      "mtime": 1784949206,
       "domain": "main",
-      "gitSha": "8cf3bea6de98ca60821b1ec842e9f91e93263752",
-      "sha256": "16119aaa9f44b1053586aed4e51e2d3185b252c2087efeae5dcb4dc030d986f3"
+      "gitSha": "df83c7a478e9f5083195a9904f0f6fe1bca293bb",
+      "sha256": "1bb7b23de6ee1e7adfe79939696af9af11514cc8e68fce17fc626dce74c99617"
     },
     {
       "path": "index.html",
@@ -88,11 +88,11 @@
     },
     {
       "path": "sponsor.html",
-      "size": 14958,
-      "mtime": 1784912524,
+      "size": 21809,
+      "mtime": 1784949206,
       "domain": "main",
-      "gitSha": "f01dc465be128e3810236666f24f04bd32d6da8b",
-      "sha256": "e557aa556b222835ba509181c52dc8619215ec2bebb0eb8cf175e2555abd6fc9"
+      "gitSha": "c906813e23b66c3e79d44c9ede9a037239f7cd1c",
+      "sha256": "a08833eae254113139bc106955bae8cf1f3aaf0ae50a28daeba03769e7efc9af"
     },
     {
       "path": "update.json",
@@ -103,19 +103,19 @@
     },
     {
       "path": "捐赠名单.md",
-      "size": 7848,
-      "mtime": 1784947891,
+      "size": 7865,
+      "mtime": 1784949206,
       "domain": "main",
-      "gitSha": "2ffe4d8462bd8dc8a5a7562e9d40f025dca8516f",
-      "sha256": "59a5858d5eecb83cd67fedc8acbbaa7e5bf6600d02f2ae1cf4397dbc21ddab4c"
+      "gitSha": "e82b9400560b4bfd8761a8b5705de14f26e868eb",
+      "sha256": "7f04046026b446c7458de0ebe7c0bdf987651632f27ab9548b9e26f9ad50fdfd"
     },
     {
       "path": "捐赠名单.md.sig",
       "size": 129,
-      "mtime": 1784947891,
+      "mtime": 1784949206,
       "domain": "main",
-      "gitSha": "a4e3c401269e3b8bb7ade99ed79a0af8aaa0d1e9",
-      "sha256": "f485ac6900092f1f704c97f523c6fa8772438c0978ecf8e90f82f5ef29e6d501"
+      "gitSha": "26cebf8a842ee2065b942e3e29408022734a375b",
+      "sha256": "fa885efd2f23728fafc4d9d5a2c67c2ecb21115953dac7db69862f5923e4b905"
     },
     {
       "path": "黑名单.md",

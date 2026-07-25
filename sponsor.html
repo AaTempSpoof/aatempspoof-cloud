@@ -199,6 +199,30 @@
     .amount-help { margin-top: 5px; color: #705b2d; font-size: 13px; }
     .amount-value { color: #4f3508; font: 800 30px/1 ui-monospace, "SFMono-Regular", monospace; }
 
+    .queue-box {
+      margin-bottom: 22px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: #f8faf9;
+    }
+
+    .queue-position {
+      color: var(--ink);
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .queue-message {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .queue-action { margin-top: 16px; }
+    .queue-action[hidden], .payment-content[hidden] { display: none; }
+
     .qr-wrap { width: min(100%, 420px); margin: 0 auto; }
     .qr-wrap img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
 
@@ -310,43 +334,52 @@
           <input id="confirmed" name="confirmed" type="checkbox" required>
           <span>我已确认邮箱填写正确，并了解赞助完成后需要前往该邮箱查看注册链接。</span>
         </label>
-        <button class="primary" id="submitButton" type="submit">确认邮箱并查看捐赠码</button>
+        <button class="primary" id="submitButton" type="submit">确认邮箱并进入排队</button>
         <p class="message" id="formMessage" role="alert"></p>
       </form>
 
       <section class="stage" id="paymentStage" hidden>
         <div class="payment-head">
           <div>
-            <h2>使用微信完成赞助</h2>
+            <h2>赞助预约</h2>
             <p class="stage-copy" id="emailSummary"></p>
           </div>
-          <span class="status" id="paymentStatus">等待付款</span>
+          <span class="status" id="paymentStatus">排队中</span>
         </div>
 
-        <div class="amount-band">
-          <div>
-            <div class="amount-label">本次赞助金额</div>
-            <div class="amount-help">支付6元以上即可，可按自己的意愿多付。</div>
+        <div class="queue-box">
+          <div class="queue-position" id="queuePosition">正在读取排队状态</div>
+          <p class="queue-message" id="queueMessage">请保持本页打开。</p>
+          <button class="primary queue-action" id="beginButton" type="button" hidden>开始付款</button>
+          <button class="primary queue-action" id="requeueButton" type="button" hidden>重新排队</button>
+        </div>
+
+        <div class="payment-content" id="paymentContent" hidden>
+          <div class="amount-band">
+            <div>
+              <div class="amount-label">本次赞助金额</div>
+              <div class="amount-help">支付6元以上即可，可按自己的意愿多付。</div>
+            </div>
+            <div class="amount-value">6.00 元以上</div>
           </div>
-          <div class="amount-value"><span id="amount">6.00</span> 元以上</div>
+
+          <div class="qr-wrap">
+            <img src="sponsor-qr.png" alt="AaTempSpoof 微信赞赏码" width="1213" height="1213">
+          </div>
+
+          <ol class="steps">
+            <li>使用微信扫描上方赞赏码。</li>
+            <li>支付6元以上金额，可按自己的意愿多付。</li>
+            <li>请在付款倒计时结束前完成支付，并保持本页打开。</li>
+            <li>系统确认后会将一次性注册链接发送到邮箱，请同时检查垃圾邮件目录。</li>
+          </ol>
         </div>
 
-        <div class="qr-wrap">
-          <img src="sponsor-qr.png" alt="AaTempSpoof 微信赞赏码" width="1213" height="1213">
-        </div>
-
-        <ol class="steps">
-          <li>使用微信扫描上方赞赏码。</li>
-          <li>支付6元以上金额，可多付。</li>
-          <li>付款后保持本页打开，系统确认后会将一次性注册链接发送到邮箱。</li>
-          <li>请同时检查收件箱和垃圾邮件目录。</li>
-        </ol>
-
-        <p class="timer" id="timer">预约有效期：--:--</p>
+        <p class="timer" id="timer">正在同步倒计时...</p>
         <div class="success" id="successMessage" hidden>
           付款已确认，一次性注册链接已发送。请前往邮箱查看。
         </div>
-        <button class="secondary" id="restartButton" type="button">重新填写邮箱</button>
+        <button class="secondary" id="restartButton" type="button" hidden>返回填写邮箱</button>
       </section>
     </section>
 
@@ -363,15 +396,36 @@
     const paymentStage = document.getElementById('paymentStage');
     const paymentStatus = document.getElementById('paymentStatus');
     const emailSummary = document.getElementById('emailSummary');
-    const amount = document.getElementById('amount');
+    const queuePosition = document.getElementById('queuePosition');
+    const queueMessage = document.getElementById('queueMessage');
+    const beginButton = document.getElementById('beginButton');
+    const requeueButton = document.getElementById('requeueButton');
+    const paymentContent = document.getElementById('paymentContent');
     const timer = document.getElementById('timer');
     const successMessage = document.getElementById('successMessage');
     const restartButton = document.getElementById('restartButton');
+    const storageKey = 'aatempspoofSponsorIntent';
 
-    let intentId = '';
-    let expiresAt = 0;
+    function readStoredIntent() {
+      try { return localStorage.getItem(storageKey) || ''; } catch (_) { return ''; }
+    }
+
+    function writeStoredIntent(value) {
+      try {
+        if (value) localStorage.setItem(storageKey, value);
+        else localStorage.removeItem(storageKey);
+      } catch (_) {}
+    }
+
+    let intentId = readStoredIntent();
+    let queueState = '';
+    let deadlineAt = 0;
+    let serverOffset = 0;
+    let estimatedWaitSeconds = 0;
+    let estimateUpdatedAt = 0;
     let statusTimer = 0;
     let countdownTimer = 0;
+
     async function apiFetch(path, options) {
       if (!window.AaTempCloud) throw new Error('云端入口脚本未加载');
       return window.AaTempCloud.request(path, options, 3);
@@ -379,6 +433,7 @@
 
     function setStatus(text, paid = false) {
       paymentStatus.textContent = text;
+      paymentStatus.removeAttribute('style');
       if (paid) {
         paymentStatus.style.borderColor = '#087a4a';
         paymentStatus.style.background = '#087a4a';
@@ -389,18 +444,98 @@
     function stopPolling() {
       clearTimeout(statusTimer);
       clearInterval(countdownTimer);
+      statusTimer = 0;
+      countdownTimer = 0;
+    }
+
+    function formatDuration(seconds) {
+      const value = Math.max(0, Math.ceil(Number(seconds) || 0));
+      const minutes = String(Math.floor(value / 60)).padStart(2, '0');
+      const rest = String(value % 60).padStart(2, '0');
+      return `${minutes}:${rest}`;
     }
 
     function updateCountdown() {
-      const remaining = Math.max(0, expiresAt - Date.now());
-      const totalSeconds = Math.ceil(remaining / 1000);
-      const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
-      const seconds = String(totalSeconds % 60).padStart(2, '0');
-      timer.textContent = remaining > 0 ? `预约有效期：${minutes}:${seconds}` : '预约已过期，请重新填写邮箱';
-      if (!remaining) {
-        setStatus('已过期');
-        clearInterval(countdownTimer);
+      const serverNow = Date.now() + serverOffset;
+      if (queueState === 'waiting') {
+        const elapsed = (Date.now() - estimateUpdatedAt) / 1000;
+        timer.textContent = `预计等待：${formatDuration(Math.max(0, estimatedWaitSeconds - elapsed))}`;
+        return;
       }
+      const remaining = Math.max(0, (deadlineAt - serverNow) / 1000);
+      if (queueState === 'ready') timer.textContent = `确认剩余：${formatDuration(remaining)}`;
+      else if (queueState === 'paying') timer.textContent = `付款剩余：${formatDuration(remaining)}`;
+      else if (queueState === 'confirming') timer.textContent = `到账确认：${formatDuration(remaining)}`;
+      else if (queueState === 'timed_out') timer.textContent = '本轮预约已超时';
+      else if (queueState === 'cancelled') timer.textContent = '该预约已被管理员删除';
+      else if (queueState === 'paid') timer.textContent = '赞助处理完成';
+      else timer.textContent = '正在同步预约状态...';
+    }
+
+    function ensureCountdown() {
+      if (!countdownTimer) countdownTimer = setInterval(updateCountdown, 1000);
+    }
+
+    function applyStatus(data) {
+      let finished = false;
+      queueState = data.queueState || (data.status === 'paid' ? 'paid' : '');
+      deadlineAt = Number(data.deadlineAt || 0);
+      serverOffset = Number(data.serverNow || Date.now()) - Date.now();
+      estimatedWaitSeconds = Number(data.estimatedWaitSeconds || 0);
+      estimateUpdatedAt = Date.now();
+      emailSummary.textContent = `注册链接将发送至 ${data.emailMasked || '已登记邮箱'}`;
+      form.hidden = true;
+      paymentStage.hidden = false;
+      beginButton.hidden = true;
+      requeueButton.hidden = true;
+      paymentContent.hidden = true;
+      successMessage.hidden = true;
+      restartButton.hidden = true;
+
+      if (queueState === 'waiting') {
+        setStatus('排队中');
+        queuePosition.textContent = data.position ? `当前第 ${data.position} 位` : '正在排队';
+        queueMessage.textContent = data.ahead ? `前方还有 ${data.ahead} 人，请保持本页打开。` : '即将轮到您，请保持本页打开。';
+      } else if (queueState === 'ready') {
+        setStatus('轮到您了');
+        queuePosition.textContent = '现在可以开始付款';
+        queueMessage.textContent = '请在确认倒计时结束前点击“开始付款”，点击后才会显示赞赏码。';
+        beginButton.hidden = false;
+      } else if (queueState === 'paying') {
+        setStatus('等待付款');
+        queuePosition.textContent = '付款时段已为您锁定';
+        queueMessage.textContent = '请在倒计时结束前支付6元以上，可按自己的意愿多付。';
+        paymentContent.hidden = false;
+      } else if (queueState === 'confirming') {
+        setStatus('确认到账');
+        queuePosition.textContent = '正在等待最后到账确认';
+        queueMessage.textContent = '赞赏码已隐藏，请不要重复付款。系统确认后会自动发送注册链接。';
+      } else if (queueState === 'timed_out') {
+        setStatus('已超时');
+        queuePosition.textContent = '本轮预约已经结束';
+        queueMessage.textContent = '赞赏码已隐藏。如仍需赞助，请手动重新排到队尾。';
+        requeueButton.hidden = false;
+      } else if (queueState === 'cancelled') {
+        setStatus('已删除');
+        queuePosition.textContent = '该预约已由管理员删除';
+        queueMessage.textContent = '如有疑问，请联系管理员核对。';
+        restartButton.hidden = false;
+      } else if (queueState === 'paid') {
+        queuePosition.textContent = '付款已确认';
+        if (data.mailStatus === 'sent') {
+          setStatus('邮件已发送', true);
+          queueMessage.textContent = '一次性注册链接已经发送，请检查收件箱和垃圾邮件目录。';
+          successMessage.hidden = false;
+          restartButton.hidden = false;
+          stopPolling();
+          finished = true;
+        } else {
+          setStatus('邮件发送中', true);
+          queueMessage.textContent = '付款已经确认，系统正在发送邮件，失败时会自动重试。';
+        }
+      }
+      updateCountdown();
+      if (!finished) ensureCountdown();
     }
 
     async function pollStatus() {
@@ -408,22 +543,43 @@
       try {
         const response = await apiFetch(`/sponsor/status?id=${encodeURIComponent(intentId)}`, { cache: 'no-store' });
         const data = await response.json();
-        if (data.ok && data.status === 'paid' && data.mailStatus === 'sent') {
-          setStatus('邮件已发送', true);
-          successMessage.hidden = false;
-          timer.textContent = '赞助处理完成';
-          stopPolling();
+        if (!response.ok || !data.ok) {
+          if (response.status === 404) {
+            writeStoredIntent('');
+            intentId = '';
+            paymentStage.hidden = true;
+            form.hidden = false;
+            formMessage.textContent = '原预约不存在，请重新填写邮箱';
+          }
           return;
         }
-        if (data.ok && data.status === 'paid') setStatus('付款已确认');
-        if (data.ok && data.status === 'expired') {
-          setStatus('已过期');
-          timer.textContent = '预约已过期，请重新填写邮箱';
-          stopPolling();
-          return;
-        }
+        applyStatus(data);
       } catch (_) {}
-      statusTimer = setTimeout(pollStatus, 30000);
+      if (intentId && queueState !== 'cancelled' && !(queueState === 'paid' && successMessage.hidden === false)) {
+        statusTimer = setTimeout(pollStatus, 2000);
+      }
+    }
+
+    async function updateReservation(path, button) {
+      if (!intentId) return;
+      button.disabled = true;
+      try {
+        const response = await apiFetch(path, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ id: intentId }),
+        });
+        const data = await response.json();
+        if (!response.ok || !data.ok) throw new Error(data.message || '操作失败');
+        applyStatus(data);
+        clearTimeout(statusTimer);
+        statusTimer = setTimeout(pollStatus, 2000);
+      } catch (error) {
+        queueMessage.textContent = error.message || '操作失败，请稍后重试';
+        statusTimer = setTimeout(pollStatus, 1000);
+      } finally {
+        button.disabled = false;
+      }
     }
 
     form.addEventListener('submit', async event => {
@@ -448,27 +604,33 @@
         const data = await response.json();
         if (!response.ok || !data.ok) throw new Error(data.message || '邮箱登记失败');
         intentId = data.id;
-        expiresAt = Number(data.expiresAt || 0);
-        amount.textContent = '6.00';
-        emailSummary.textContent = `注册链接将发送至 ${data.emailMasked}`;
-        form.hidden = true;
-        paymentStage.hidden = false;
-        updateCountdown();
-        countdownTimer = setInterval(updateCountdown, 1000);
+        writeStoredIntent(intentId);
+        applyStatus(data);
         pollStatus();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (error) {
         formMessage.textContent = error.message || '邮箱登记失败，请稍后重试';
       } finally {
         submitButton.disabled = false;
-        submitButton.textContent = '确认邮箱并查看捐赠码';
+        submitButton.textContent = '确认邮箱并进入排队';
       }
     });
 
+    beginButton.addEventListener('click', () => updateReservation('/sponsor/begin', beginButton));
+    requeueButton.addEventListener('click', () => updateReservation('/sponsor/requeue', requeueButton));
+
     restartButton.addEventListener('click', () => {
       stopPolling();
+      writeStoredIntent('');
       window.location.reload();
     });
+
+    if (intentId) {
+      form.hidden = true;
+      paymentStage.hidden = false;
+      ensureCountdown();
+      pollStatus();
+    }
   </script>
 </body>
 </html>
