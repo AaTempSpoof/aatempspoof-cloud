@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1785166002,
+  "generated": 1785166293,
   "files": [
     {
       "path": "AaTempSpoof_v14.4.zip",
@@ -52,19 +52,19 @@
     },
     {
       "path": "cloud.json",
-      "size": 251,
-      "mtime": 1785166002,
+      "size": 248,
+      "mtime": 1785166293,
       "domain": "main",
-      "gitSha": "eea74230e3b2a0c21e37bf3d84ce58c94356ca66",
-      "sha256": "ddd849b5b0adaffea8b74b062a9ccf46ad27f2814bb44fe86b86026576449069"
+      "gitSha": "c84b18e9f7e3217dec9f24cbd8a6139c15da53e3",
+      "sha256": "83ab44af2a6f22125b931a7d5be762752fdc05ce1851c9ab1e3f9fbb7e2c8f70"
     },
     {
       "path": "cloud.txt",
-      "size": 251,
-      "mtime": 1785166002,
+      "size": 248,
+      "mtime": 1785166293,
       "domain": "main",
-      "gitSha": "3245bca4911f71ddd976484163115b18b55fef08",
-      "sha256": "9c145b7aa9fbeba79738a46928a05941c6477d699317aaf4a1a30458acf03b9f"
+      "gitSha": "e834710b9f1aa20da5cbeb72ef076e718e95ee0e",
+      "sha256": "c2b7caf4467c6c539a816009dcf6ea19033de4571fe65837069624d85dd6ca4c"
     },
     {
       "path": "index.html",
@@ -84,11 +84,11 @@
     },
     {
       "path": "register.sh",
-      "size": 3537,
-      "mtime": 1785153006,
+      "size": 2854,
+      "mtime": 1785166293,
       "domain": "main",
-      "gitSha": "d04fcf117965a48b192a904a219b9d04a43d88b8",
-      "sha256": "9798080b8e33223be9879040ce51ac6cd3f2d17c460d15bafc70a985405c439e"
+      "gitSha": "d332cdfffafd61c4eb9ca6febe8ab144d2e42bf5",
+      "sha256": "b8a34c002b1a65cde8fd89a3b44f93c65bd56cd2f4ae032781e204d896f66db4"
     },
     {
       "path": "sponsor-qr.png",
