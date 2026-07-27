@@ -223,16 +223,17 @@
     .queue-action { margin-top: 16px; }
     .queue-action[hidden], .payment-content[hidden] { display: none; }
 
-    .payment-methods { display: grid; gap: 28px; }
-
-    .payment-method + .payment-method {
-      padding-top: 28px;
-      border-top: 1px solid var(--line);
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+      gap: 18px;
     }
 
-    .payment-method-head { margin-bottom: 14px; text-align: center; }
-    .payment-method-head h3 { margin: 0; font-size: 18px; line-height: 1.4; }
-    .payment-method-head p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+    .payment-method { min-width: 0; }
+    .payment-method-head { min-height: 64px; margin-bottom: 10px; text-align: center; }
+    .payment-method-head h3 { margin: 0; font-size: 17px; line-height: 1.4; }
+    .payment-method-head p { margin: 4px 0 0; color: var(--muted); font-size: 12px; line-height: 1.4; }
 
     .qr-wrap { width: min(100%, 420px); margin: 0 auto; }
     .qr-wrap img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
@@ -307,6 +308,10 @@
       .payment-head { gap: 10px; }
       .amount-band { grid-template-columns: 1fr; }
       .amount-value { font-size: 28px; }
+      .payment-methods { gap: 10px; }
+      .payment-method-head { min-height: 58px; margin-bottom: 8px; }
+      .payment-method-head h3 { font-size: 15px; }
+      .payment-method-head p { font-size: 11px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
