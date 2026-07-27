@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1785167540,
+  "generated": 1785169819,
   "files": [
     {
       "path": "AaTempSpoof_v14.4.zip",
@@ -91,6 +91,14 @@
       "sha256": "9798080b8e33223be9879040ce51ac6cd3f2d17c460d15bafc70a985405c439e"
     },
     {
+      "path": "sponsor-alipay.jpg",
+      "size": 210131,
+      "mtime": 1785169819,
+      "domain": "main",
+      "gitSha": "02ef52cc8163492e59832a395ee6c586db77debc",
+      "sha256": "48a220804a322591b1ff9748aeb54b5bd4e20ba6106582f897578f1f1bca5c0e"
+    },
+    {
       "path": "sponsor-qr.png",
       "size": 198952,
       "mtime": 1784799915,
@@ -100,11 +108,11 @@
     },
     {
       "path": "sponsor.html",
-      "size": 21809,
-      "mtime": 1784949206,
+      "size": 23048,
+      "mtime": 1785169819,
       "domain": "main",
-      "gitSha": "c906813e23b66c3e79d44c9ede9a037239f7cd1c",
-      "sha256": "a08833eae254113139bc106955bae8cf1f3aaf0ae50a28daeba03769e7efc9af"
+      "gitSha": "cf410027892f0d308c22b5104e3ac4f1751abc02",
+      "sha256": "12942c753690f30ab324d9a0927ec5c0fb41a39db90b79f9b6b076e0cd3cf06d"
     },
     {
       "path": "update.json",
