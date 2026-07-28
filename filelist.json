@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1785221209,
+  "generated": 1785221916,
   "files": [
     {
       "path": "AaTempSpoof_v14.4.zip",
@@ -52,19 +52,19 @@
     },
     {
       "path": "cloud.json",
-      "size": 252,
-      "mtime": 1785221209,
+      "size": 250,
+      "mtime": 1785221916,
       "domain": "main",
-      "gitSha": "551682931977f20a05d5bc846c4f8b9f060d0552",
-      "sha256": "020dfec36ea8d26ade6ddffedc7eb33ec2f113dbfd0b6a09a8fa06ea4bdf0fb3"
+      "gitSha": "73673ab8ff3f44c50087a18c5bc0f8bd921c0e52",
+      "sha256": "cd78669ca0ebe02e3be3cdb09f0e68dba4320a397e76f529372dc5a1809b4c3a"
     },
     {
       "path": "cloud.txt",
-      "size": 252,
-      "mtime": 1785221209,
+      "size": 250,
+      "mtime": 1785221916,
       "domain": "main",
-      "gitSha": "0f1e6ddcc9549d158a02a1733cd235e07808bd2d",
-      "sha256": "2777e4d67238a7133230b7e74744180f6384128dfa6f0ea149a05a1577b4104a"
+      "gitSha": "e74df6147f07e5fcb2495608fe508bb848a5b23e",
+      "sha256": "309d21b6ffb5176aca9414b2cf393923272f4697ed79f63e2e48922c00ecf565"
     },
     {
       "path": "index.html",
@@ -84,11 +84,11 @@
     },
     {
       "path": "register.sh",
-      "size": 2854,
-      "mtime": 1785219637,
+      "size": 3537,
+      "mtime": 1785221916,
       "domain": "main",
-      "gitSha": "d332cdfffafd61c4eb9ca6febe8ab144d2e42bf5",
-      "sha256": "b8a34c002b1a65cde8fd89a3b44f93c65bd56cd2f4ae032781e204d896f66db4"
+      "gitSha": "d04fcf117965a48b192a904a219b9d04a43d88b8",
+      "sha256": "9798080b8e33223be9879040ce51ac6cd3f2d17c460d15bafc70a985405c439e"
     },
     {
       "path": "sponsor-alipay.jpg",
@@ -108,11 +108,11 @@
     },
     {
       "path": "sponsor.html",
-      "size": 21809,
-      "mtime": 1785219637,
+      "size": 23315,
+      "mtime": 1785221916,
       "domain": "main",
-      "gitSha": "c906813e23b66c3e79d44c9ede9a037239f7cd1c",
-      "sha256": "a08833eae254113139bc106955bae8cf1f3aaf0ae50a28daeba03769e7efc9af"
+      "gitSha": "080884b7a1cb47a11f6f458660899e78d2727ca5",
+      "sha256": "e6580d39e925696cec3faafaa46201bba94f0fe68e78ba4bdd39549097c5a144"
     },
     {
       "path": "update.json",
@@ -124,19 +124,19 @@
     },
     {
       "path": "捐赠名单.md",
-      "size": 9651,
-      "mtime": 1785221209,
+      "size": 9662,
+      "mtime": 1785221916,
       "domain": "main",
-      "gitSha": "6e1fafd90957c8579e0ab8fd0f5f132c42f88204",
-      "sha256": "8e8c7ab173d3c74c9ca60f7312099d7e97608c92d0b219defb7df47a22195a81"
+      "gitSha": "009c9c18c65ffbabd18c9bb0c20255fa34021d33",
+      "sha256": "7b3065be9687a97c731922eb01a5930cf5420a43ecce8fb3ca7461063b4dd5bf"
     },
     {
       "path": "捐赠名单.md.sig",
       "size": 129,
-      "mtime": 1785221209,
+      "mtime": 1785221916,
       "domain": "main",
-      "gitSha": "9d022d69da455b0a27be2ce81666e02d1dbe853f",
-      "sha256": "420e3f56d60ec3753060791c18ea68c63909fba6c292b1466ac371ff164c8681"
+      "gitSha": "3c4ef1a098b139169140ccda382c1456f17ec1a1",
+      "sha256": "8079969e9ad962664c3d3dc265c8731785bcd0b87bcb535ef115f68351f4cf1b"
     },
     {
       "path": "温度墙.txt",

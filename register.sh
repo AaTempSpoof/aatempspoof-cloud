@@ -78,22 +78,45 @@ prop_value() {
     return 1
 }
 
-su_value() {
-    cmd="$1"
-    if command -v su >/dev/null 2>&1; then
-        value="$(su -c "$cmd" 2>/dev/null | tr -d '\000\r\n ')"
-        first_value "$value" && return 0
+is_root() {
+    [ "$(/system/bin/id -u 2>/dev/null)" = "0" ]
+}
+
+root_file_value() {
+    file="$1"
+    if is_root; then
+        raw_value="$(/system/bin/cat "$file" 2>/dev/null)" || return 1
+    elif command -v su >/dev/null 2>&1; then
+        raw_value="$(su -c "/system/bin/cat '$file'" 2>/dev/null)" || return 1
+    else
+        return 1
     fi
-    return 1
+    value="$(printf '%s' "$raw_value" | tr -d '\000\r\n ')"
+    first_value "$value"
+}
+
+root_prop_value() {
+    key="$1"
+    if is_root; then
+        raw_value="$(/system/bin/getprop "$key" 2>/dev/null)" || return 1
+    elif command -v su >/dev/null 2>&1; then
+        raw_value="$(su -c "/system/bin/getprop '$key'" 2>/dev/null)" || return 1
+    else
+        return 1
+    fi
+    value="$(printf '%s' "$raw_value" | tr -d '\r\n ')"
+    first_value "$value"
 }
 
 get_board_id() {
     file_value /sys/devices/soc0/serial_number && return 0
     file_value /sys/devices/system/soc/soc0/serial_number && return 0
-    su_value 'cat /sys/devices/soc0/serial_number 2>/dev/null' && return 0
-    su_value 'cat /sys/devices/system/soc/soc0/serial_number 2>/dev/null' && return 0
-    su_value 'getprop ro.boot.serialno 2>/dev/null' && return 0
-    su_value 'getprop ro.serialno 2>/dev/null' && return 0
+    root_file_value /sys/devices/soc0/serial_number && return 0
+    root_file_value /sys/devices/system/soc/soc0/serial_number && return 0
+    root_prop_value ro.boot.serialno && return 0
+    root_prop_value ro.serialno && return 0
+    root_prop_value ro.vendor.oplus.radio.serialno && return 0
+    root_prop_value vendor.oplus.caihong.serialno && return 0
     prop_value ro.boot.serialno && return 0
     prop_value ro.serialno && return 0
     prop_value ro.vendor.oplus.radio.serialno && return 0
