@@ -223,18 +223,6 @@
     .queue-action { margin-top: 16px; }
     .queue-action[hidden], .payment-content[hidden] { display: none; }
 
-    .payment-methods {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      align-items: start;
-      gap: 18px;
-    }
-
-    .payment-method { min-width: 0; }
-    .payment-method-head { min-height: 64px; margin-bottom: 10px; text-align: center; }
-    .payment-method-head h3 { margin: 0; font-size: 17px; line-height: 1.4; }
-    .payment-method-head p { margin: 4px 0 0; color: var(--muted); font-size: 12px; line-height: 1.4; }
-
     .qr-wrap { width: min(100%, 420px); margin: 0 auto; }
     .qr-wrap img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
 
@@ -308,10 +296,6 @@
       .payment-head { gap: 10px; }
       .amount-band { grid-template-columns: 1fr; }
       .amount-value { font-size: 28px; }
-      .payment-methods { gap: 10px; }
-      .payment-method-head { min-height: 58px; margin-bottom: 8px; }
-      .payment-method-head h3 { font-size: 15px; }
-      .payment-method-head p { font-size: 11px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -379,30 +363,12 @@
             <div class="amount-value">6.00 元以上</div>
           </div>
 
-          <div class="payment-methods">
-            <section class="payment-method" aria-labelledby="wechatPaymentTitle">
-              <div class="payment-method-head">
-                <h3 id="wechatPaymentTitle">微信支付</h3>
-                <p>使用微信扫描赞赏码</p>
-              </div>
-              <div class="qr-wrap">
-                <img src="sponsor-qr.png" alt="AaTempSpoof 微信赞赏码" width="1213" height="1213">
-              </div>
-            </section>
-
-            <section class="payment-method" aria-labelledby="alipayPaymentTitle">
-              <div class="payment-method-head">
-                <h3 id="alipayPaymentTitle">支付宝</h3>
-                <p>打开支付宝并使用“扫一扫”</p>
-              </div>
-              <div class="qr-wrap">
-                <img src="sponsor-alipay.jpg" alt="AaTempSpoof 支付宝收款码" width="1260" height="1890">
-              </div>
-            </section>
+          <div class="qr-wrap">
+            <img src="sponsor-qr.png" alt="AaTempSpoof 微信赞赏码" width="1213" height="1213">
           </div>
 
           <ol class="steps">
-            <li>任选微信或支付宝，扫描对应的收款码。</li>
+            <li>使用微信扫描上方赞赏码。</li>
             <li>支付6元以上金额，可按自己的意愿多付。</li>
             <li>请在付款倒计时结束前完成支付，并保持本页打开。</li>
             <li>系统确认后会将一次性注册链接发送到邮箱，请同时检查垃圾邮件目录。</li>
@@ -533,7 +499,7 @@
       } else if (queueState === 'ready') {
         setStatus('轮到您了');
         queuePosition.textContent = '现在可以开始付款';
-        queueMessage.textContent = '请在确认倒计时结束前点击“开始付款”，点击后才会显示收款码。';
+        queueMessage.textContent = '请在确认倒计时结束前点击“开始付款”，点击后才会显示赞赏码。';
         beginButton.hidden = false;
       } else if (queueState === 'paying') {
         setStatus('等待付款');
@@ -543,11 +509,11 @@
       } else if (queueState === 'confirming') {
         setStatus('确认到账');
         queuePosition.textContent = '正在等待最后到账确认';
-        queueMessage.textContent = '收款码已隐藏，请不要重复付款。系统确认后会自动发送注册链接。';
+        queueMessage.textContent = '赞赏码已隐藏，请不要重复付款。系统确认后会自动发送注册链接。';
       } else if (queueState === 'timed_out') {
         setStatus('已超时');
         queuePosition.textContent = '本轮预约已经结束';
-        queueMessage.textContent = '收款码已隐藏。如仍需赞助，请手动重新排到队尾。';
+        queueMessage.textContent = '赞赏码已隐藏。如仍需赞助，请手动重新排到队尾。';
         requeueButton.hidden = false;
       } else if (queueState === 'cancelled') {
         setStatus('已删除');
