@@ -350,8 +350,27 @@
     .addon-list {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: 28px;
+      column-gap: 36px;
       border-top: 1px solid var(--line);
+    }
+
+    .addon-group + .addon-group {
+      margin-top: 38px;
+    }
+
+    .addon-group-title {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 13px;
+      font-size: 18px;
+      letter-spacing: -.02em;
+    }
+
+    .addon-group-title::after {
+      flex: 1;
+      border-top: 1px solid var(--line);
+      content: "";
     }
 
     .addon-item {
@@ -359,7 +378,7 @@
       grid-template-columns: 138px minmax(0, 1fr);
       gap: 14px;
       align-content: start;
-      padding: 16px 0;
+      padding: 20px 0;
       border-bottom: 1px solid var(--line);
     }
 
@@ -369,10 +388,21 @@
       line-height: 1.55;
     }
 
+    .platform-badge {
+      display: inline-block;
+      margin-left: 7px;
+      color: var(--accent-dark);
+      font-size: 11px;
+      font-style: normal;
+      font-weight: 800;
+      letter-spacing: .02em;
+      white-space: nowrap;
+    }
+
     .addon-item span {
       color: var(--text);
       font-size: 14px;
-      line-height: 1.62;
+      line-height: 1.72;
     }
 
     .notice {
@@ -574,8 +604,12 @@
 
       .addon-item {
         grid-template-columns: 1fr;
-        gap: 3px;
-        padding: 14px 0;
+        gap: 5px;
+        padding: 17px 0;
+      }
+
+      .addon-group + .addon-group {
+        margin-top: 32px;
       }
 
       .notice,
@@ -665,7 +699,7 @@
       <div class="wrap">
         <div class="focus-head">
           <h2 id="focus-title">当前版本重点</h2>
-          <span>当前最新版本：v14.7</span>
+          <span id="latest-version">当前最新版本：v14.7</span>
         </div>
         <div class="focus-grid">
           <article class="focus-item">
@@ -768,70 +802,85 @@
           <p>提供充电温度墙、热控策略、断电控制、厂商适配、后台管理与界面维护等扩展能力。</p>
         </div>
 
-        <div class="addon-list">
-          <div class="addon-item">
-            <strong>温度墙</strong>
-            <span>可在 41–53℃ 范围设置欧加真充电电池温度墙，通过挂载与节点接管提高系统阈值。</span>
+        <div class="addon-group">
+          <h3 class="addon-group-title">充电与断电</h3>
+          <div class="addon-list">
+            <div class="addon-item">
+              <strong>温度墙<em class="platform-badge">OnePlus</em></strong>
+              <span>可在 41–53℃ 范围设置欧加真充电电池温度墙，通过挂载与节点接管提高系统阈值。</span>
+            </div>
+            <div class="addon-item">
+              <strong>内核伪装温度墙<em class="platform-badge">OnePlus</em></strong>
+              <span>统一启用电池上层、底层、USB、MOS 与充电 PMIC 伪装，并按真实电池温度断充，降低 5℃ 后恢复。</span>
+            </div>
+            <div class="addon-item">
+              <strong>欧加真全局旁路<em class="platform-badge">OnePlus</em></strong>
+              <span>通过阻止电流与充电状态等节点输出实现约 0mA 的全局旁路；与伪装插拔同时启用时，插拔功能会失效。</span>
+            </div>
+            <div class="addon-item">
+              <strong>充电时禁用电池伪装<em class="platform-badge">OnePlus</em></strong>
+              <span>接入充电器后暂停电池温度伪装，使 /proc/shell-temp 保持原有充电判断逻辑，断开后恢复日常伪装。</span>
+            </div>
+            <div class="addon-item">
+              <strong>充电模式</strong>
+              <span>仅在充电期间自动开启伪装，日常使用保持关闭；由模块自动管理总开关，不能与应用伪装白名单并用。</span>
+            </div>
+            <div class="addon-item">
+              <strong>一加自动伪装插拔<em class="platform-badge">OnePlus</em></strong>
+              <span>提供关闭、强制和智能协议模式，可设置截止电量、30–3600 秒间隔，并在断电窗口伪装充电状态以保护记录连续性。</span>
+            </div>
+            <div class="addon-item">
+              <strong>自定义断电<em class="platform-badge">OnePlus</em></strong>
+              <span>可按目标电量停止充电，也可设置 24 小时制的开始与截止时间范围，两种规则由独立开关控制。</span>
+            </div>
           </div>
-          <div class="addon-item">
-            <strong>内核伪装温度墙</strong>
-            <span>统一启用电池上层、底层、USB、MOS 与充电 PMIC 伪装，并按真实电池温度断充，降低 5℃ 后恢复。</span>
+        </div>
+
+        <div class="addon-group">
+          <h3 class="addon-group-title">系统热控与性能</h3>
+          <div class="addon-list">
+            <div class="addon-item">
+              <strong>热控配置覆盖</strong>
+              <span>修改并挂载系统 thermal XML 配置；配置页还可将识别到的 GPU、DDR 系统温度墙提高至 120℃。</span>
+            </div>
+            <div class="addon-item">
+              <strong>移除超级省电<em class="platform-badge">OnePlus</em></strong>
+              <span>电量低于 3% 时向系统显示为 3%，避免自动进入超级省电；该功能不能与电量伪装同时开启。</span>
+            </div>
+            <div class="addon-item">
+              <strong>欧加真墓碑配置<em class="platform-badge">OnePlus</em></strong>
+              <span>调用 ColorOS 墓碑相关系统策略和 cgroup 配置，控制后台进程状态以优化待机续航。</span>
+            </div>
+            <div class="addon-item">
+              <strong>Horae 全局与应用规则<em class="platform-badge">OnePlus</em></strong>
+              <span>可全局禁用系统 Horae，也可按包名使用白名单或黑名单，只对指定应用放行或限制 Horae。</span>
+            </div>
+            <div class="addon-item">
+              <strong>停用 HW 叠加层</strong>
+              <span>通过系统图形接口停用 HW 叠加层，让画面直接由 GPU 合成；理论上可改善触摸跟手性，但会增加图形负载。</span>
+            </div>
+            <div class="addon-item">
+              <strong>一加全局触控采样率<em class="platform-badge">OnePlus</em></strong>
+              <span>提供默认、125、240/241、360/361/362 与 600 档位；相同标称频率的不同值用于适配不同节点实现。</span>
+            </div>
           </div>
-          <div class="addon-item">
-            <strong>欧加真全局旁路</strong>
-            <span>通过阻止电流与充电状态等节点输出实现约 0mA 的全局旁路；与伪装插拔同时启用时，插拔功能会失效。</span>
-          </div>
-          <div class="addon-item">
-            <strong>模块启动通知</strong>
-            <span>模块守护进程启动完成后发送系统通知，用于确认开机服务和伪装挂载已经运行。</span>
-          </div>
-          <div class="addon-item">
-            <strong>热控配置覆盖</strong>
-            <span>修改并挂载系统 thermal XML 配置；配置页还可将识别到的 GPU、DDR 系统温度墙提高至 120℃。</span>
-          </div>
-          <div class="addon-item">
-            <strong>移除超级省电</strong>
-            <span>电量低于 3% 时向系统显示为 3%，避免自动进入超级省电；该功能不能与电量伪装同时开启。</span>
-          </div>
-          <div class="addon-item">
-            <strong>充电时禁用电池伪装</strong>
-            <span>接入充电器后暂停电池温度伪装，使 /proc/shell-temp 保持原有充电判断逻辑，断开后恢复日常伪装。</span>
-          </div>
-          <div class="addon-item">
-            <strong>充电模式</strong>
-            <span>仅在充电期间自动开启伪装，日常使用保持关闭；由模块自动管理总开关，不能与应用伪装白名单并用。</span>
-          </div>
-          <div class="addon-item">
-            <strong>欧加真墓碑配置</strong>
-            <span>调用 ColorOS 墓碑相关系统策略和 cgroup 配置，控制后台进程状态以优化待机续航。</span>
-          </div>
-          <div class="addon-item">
-            <strong>Horae 全局与应用规则</strong>
-            <span>可全局禁用系统 Horae，也可按包名使用白名单或黑名单，只对指定应用放行或限制 Horae。</span>
-          </div>
-          <div class="addon-item">
-            <strong>停用 HW 叠加层</strong>
-            <span>通过系统图形接口停用 HW 叠加层，让画面直接由 GPU 合成；理论上可改善触摸跟手性，但会增加图形负载。</span>
-          </div>
-          <div class="addon-item">
-            <strong>一加自动伪装插拔</strong>
-            <span>提供关闭、强制和智能协议模式，可设置截止电量、30–3600 秒间隔，并在断电窗口伪装充电状态以保护记录连续性。</span>
-          </div>
-          <div class="addon-item">
-            <strong>自定义断电</strong>
-            <span>可按目标电量停止充电，也可设置 24 小时制的开始与截止时间范围，两种规则由独立开关控制。</span>
-          </div>
-          <div class="addon-item">
-            <strong>一加全局触控采样率</strong>
-            <span>提供默认、125、240/241、360/361/362 与 600 档位；相同标称频率的不同值用于适配不同节点实现。</span>
-          </div>
-          <div class="addon-item">
-            <strong>WebUI 外观与维护</strong>
-            <span>支持跟随系统、液态玻璃、触感反馈、弹出或平移切页、玻璃模糊、纯色或图片背景、兼容模式及恢复默认配置。</span>
-          </div>
-          <div class="addon-item">
-            <strong>配套应用与流体云</strong>
-            <span>提供控制中心快捷磁贴、桌面入口显隐、充电原生实时通知与流体云；单双电设置与 WebUI 充电统计共用。</span>
+        </div>
+
+        <div class="addon-group">
+          <h3 class="addon-group-title">运行与界面</h3>
+          <div class="addon-list">
+            <div class="addon-item">
+              <strong>模块启动通知</strong>
+              <span>模块守护进程启动完成后发送系统通知，用于确认开机服务和伪装挂载已经运行。</span>
+            </div>
+            <div class="addon-item">
+              <strong>WebUI 外观与维护</strong>
+              <span>支持跟随系统、液态玻璃、触感反馈、弹出或平移切页、玻璃模糊、纯色或图片背景、兼容模式及恢复默认配置。</span>
+            </div>
+            <div class="addon-item">
+              <strong>配套应用与流体云</strong>
+              <span>提供控制中心快捷磁贴、桌面入口显隐、充电原生实时通知与流体云；单双电设置与 WebUI 充电统计共用。</span>
+            </div>
           </div>
         </div>
       </div>
@@ -880,5 +929,45 @@
       <a href="https://www.coolapk.com/u/33802586" target="_blank" rel="noopener noreferrer">作者：酷安@傻瓜我爱你呀喵</a>
     </div>
   </footer>
+  <script>
+    (() => {
+      const target = document.getElementById('latest-version');
+      if (!target) return;
+
+      const readVersion = (path) => {
+        const name = String(path || '').split('/').pop();
+        const match = /^AaTempSpoof_v(\d+(?:\.\d+)*)(?:\(测试\))?\.zip$/i.exec(name);
+        if (!match) return null;
+        return {
+          text: match[1],
+          parts: match[1].split('.').map((part) => Number.parseInt(part, 10) || 0)
+        };
+      };
+
+      const compareVersion = (left, right) => {
+        const length = Math.max(left.parts.length, right.parts.length);
+        for (let index = 0; index < length; index += 1) {
+          const diff = (left.parts[index] || 0) - (right.parts[index] || 0);
+          if (diff) return diff;
+        }
+        return 0;
+      };
+
+      fetch('./filelist.json', { cache: 'no-store' })
+        .then((response) => {
+          if (!response.ok) throw new Error('version metadata unavailable');
+          return response.json();
+        })
+        .then((data) => {
+          const versions = Array.isArray(data.files)
+            ? data.files.map((item) => readVersion(item && item.path)).filter(Boolean)
+            : [];
+          if (!versions.length) return;
+          versions.sort(compareVersion);
+          target.textContent = `当前最新版本：v${versions[versions.length - 1].text}`;
+        })
+        .catch(() => {});
+    })();
+  </script>
 </body>
 </html>
