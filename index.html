@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="AaTempSpoof：面向 Root 用户的 Android 温度伪装、内核充电温度接管与充电统计工具。">
+  <meta name="description" content="AaTempSpoof：不改分区、无需元模块的 Android 温度伪装与欧加真无上限内核温度墙工具。">
   <meta name="theme-color" content="#f4f6f7">
   <meta property="og:type" content="website">
   <meta property="og:title" content="AaTempSpoof">
-  <meta property="og:description" content="Android 温度伪装与充电控制模块">
+  <meta property="og:description" content="不改分区、无需元模块的欧加真无上限内核温度墙与充电控制">
   <meta property="og:url" content="https://aatempspoof.github.io/aatempspoof-cloud/">
   <link rel="canonical" href="https://aatempspoof.github.io/aatempspoof-cloud/">
   <title>AaTempSpoof｜Android 温度伪装与充电控制</title>
@@ -26,6 +26,10 @@
       --warn: #7d4c12;
       --warn-bg: #fff9ed;
       --warn-line: #e8c98d;
+      --proof-bg: #10282d;
+      --proof-surface: #17343a;
+      --proof-line: rgba(213, 245, 247, .2);
+      --proof-muted: #b4c9cd;
       --content: 1040px;
     }
 
@@ -46,6 +50,10 @@
       font: 14.5px/1.68 "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+    }
+
+    body.proof-dialog-open {
+      overflow: hidden;
     }
 
     a {
@@ -285,6 +293,254 @@
       font-size: 14px;
     }
 
+    .wall-proof {
+      overflow: hidden;
+      padding: 52px 0 58px;
+      border-bottom: 1px solid #23434a;
+      background: var(--proof-bg);
+      color: #f4fbfc;
+    }
+
+    .wall-proof .kicker {
+      margin-bottom: 12px;
+      color: #72dce6;
+    }
+
+    .wall-proof-head {
+      display: grid;
+      grid-template-columns: minmax(0, .88fr) minmax(360px, 1.12fr);
+      gap: 58px;
+      align-items: end;
+    }
+
+    .wall-proof-title {
+      max-width: 520px;
+      margin-bottom: 0;
+      font-size: clamp(32px, 4.2vw, 46px);
+      line-height: 1.06;
+      letter-spacing: -.055em;
+    }
+
+    .wall-proof-title span {
+      display: block;
+    }
+
+    .wall-proof-title .wall-proof-accent {
+      color: #8de7ee;
+    }
+
+    .wall-proof-copy {
+      max-width: 610px;
+      color: #d6e5e7;
+      font-size: 15.5px;
+    }
+
+    .wall-proof-copy p {
+      margin-bottom: 10px;
+    }
+
+    .wall-proof-copy p:last-child {
+      margin-bottom: 0;
+      color: var(--proof-muted);
+      font-size: 13.5px;
+    }
+
+    .wall-proof code {
+      color: #fff;
+      font-size: .92em;
+    }
+
+    .wall-proof-tech {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      margin: 30px 0 24px;
+      border-top: 1px solid var(--proof-line);
+      border-bottom: 1px solid var(--proof-line);
+    }
+
+    .wall-proof-tech article {
+      min-width: 0;
+      padding: 18px 20px 20px 0;
+    }
+
+    .wall-proof-tech article + article {
+      padding-left: 20px;
+      border-left: 1px solid var(--proof-line);
+    }
+
+    .wall-proof-tech strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #fff;
+      font-size: 14px;
+      letter-spacing: -.01em;
+    }
+
+    .wall-proof-tech span {
+      color: var(--proof-muted);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .proof-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .proof-card {
+      min-width: 0;
+      margin: 0;
+    }
+
+    .proof-open {
+      display: block;
+      width: 100%;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid var(--proof-line);
+      border-radius: 16px;
+      background: var(--proof-surface);
+      color: inherit;
+      cursor: zoom-in;
+      font: inherit;
+      text-align: left;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .proof-open:focus-visible {
+      outline: 3px solid rgba(114, 220, 230, .6);
+      outline-offset: 4px;
+    }
+
+    .proof-media {
+      display: flex;
+      height: clamp(350px, 42vw, 475px);
+      align-items: center;
+      justify-content: center;
+      padding: 13px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--proof-line);
+      background: #e9eef0;
+    }
+
+    .proof-media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      object-fit: contain;
+      box-shadow: 0 10px 24px rgba(3, 15, 18, .18);
+      transition: transform .24s ease;
+    }
+
+    .proof-open:hover .proof-media img {
+      transform: scale(1.012);
+    }
+
+    .proof-caption {
+      display: block;
+      min-height: 92px;
+      padding: 14px 16px 16px;
+    }
+
+    .proof-caption strong,
+    .proof-caption span {
+      display: block;
+    }
+
+    .proof-caption strong {
+      margin-bottom: 3px;
+      color: #fff;
+      font-size: 15px;
+      letter-spacing: -.015em;
+    }
+
+    .proof-caption span {
+      color: var(--proof-muted);
+      font-size: 12.5px;
+      line-height: 1.55;
+    }
+
+    .proof-note {
+      margin: 16px 0 0;
+      color: #91aeb3;
+      font-size: 12px;
+    }
+
+    .proof-dialog {
+      width: min(94vw, 1280px);
+      max-width: none;
+      max-height: 94vh;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 18px;
+      background: #0c171a;
+      color: #f4fbfc;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .42);
+    }
+
+    .proof-dialog::backdrop {
+      background: rgba(4, 10, 12, .82);
+      backdrop-filter: blur(7px);
+    }
+
+    .proof-dialog-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 2;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border: 1px solid rgba(255, 255, 255, .24);
+      border-radius: 50%;
+      background: rgba(6, 18, 21, .84);
+      color: #fff;
+      cursor: pointer;
+      font: 700 24px/1 sans-serif;
+    }
+
+    .proof-dialog-close:focus-visible {
+      outline: 3px solid rgba(114, 220, 230, .6);
+      outline-offset: 3px;
+    }
+
+    .proof-dialog-figure {
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      max-height: 94vh;
+      margin: 0;
+    }
+
+    .proof-dialog-media {
+      display: flex;
+      min-height: 0;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 20px 18px;
+      overflow: auto;
+    }
+
+    .proof-dialog-image {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      max-height: calc(94vh - 122px);
+      object-fit: contain;
+    }
+
+    .proof-dialog-caption {
+      padding: 14px 20px 17px;
+      border-top: 1px solid rgba(255, 255, 255, .12);
+      color: #c7dadd;
+      font-size: 13px;
+      text-align: center;
+    }
+
     .section {
       padding: 48px 0;
     }
@@ -496,9 +752,28 @@
 
     @media (max-width: 800px) {
       .hero-grid,
-      .section-head {
+      .section-head,
+      .wall-proof-head {
         grid-template-columns: 1fr;
         gap: 28px;
+      }
+
+      .proof-gallery {
+        grid-template-columns: none;
+        grid-auto-columns: minmax(260px, 76vw);
+        grid-auto-flow: column;
+        overflow-x: auto;
+        padding: 1px 2px 12px;
+        scroll-snap-type: x mandatory;
+        scrollbar-color: #416068 transparent;
+      }
+
+      .proof-card {
+        scroll-snap-align: start;
+      }
+
+      .proof-media {
+        height: min(112vw, 520px);
       }
 
       .focus-grid {
@@ -581,6 +856,29 @@
         padding: 36px 0;
       }
 
+      .wall-proof {
+        padding: 40px 0 44px;
+      }
+
+      .wall-proof-title {
+        font-size: 32px;
+      }
+
+      .wall-proof-tech {
+        grid-template-columns: 1fr;
+        margin-top: 24px;
+      }
+
+      .wall-proof-tech article {
+        padding: 15px 0 16px;
+      }
+
+      .wall-proof-tech article + article {
+        padding-left: 0;
+        border-top: 1px solid var(--proof-line);
+        border-left: 0;
+      }
+
       .section-head {
         gap: 10px;
         margin-bottom: 20px;
@@ -644,6 +942,10 @@
       html {
         scroll-behavior: auto;
       }
+
+      .proof-media img {
+        transition: none;
+      }
     }
   </style>
 </head>
@@ -656,6 +958,7 @@
         <a class="logo" href="./">AaTempSpoof</a>
       </div>
       <nav class="nav" aria-label="页面导航">
+        <a href="#unlimited-wall">实测</a>
         <a href="#features">功能</a>
         <a href="#get">获取模块</a>
       </nav>
@@ -669,7 +972,7 @@
           <p class="kicker">AaTempSpoof · ROOT</p>
           <h1><span>温度伪装</span><span class="title-accent">充电控制</span></h1>
           <p class="hero-copy">
-            覆盖多源温度、内核充电温度链路与充电记录；配置、状态和快捷控制集中在同一套界面中。
+            不改系统分区，不用额外元模块。通过运行时内核温度数据链路接管，提供欧加真无上限内核温度墙、温度伪装与完整充电记录。
           </p>
           <div class="hero-actions">
             <a class="button" href="./sponsor.html">获取模块</a>
@@ -692,6 +995,88 @@
             <span>功率、温度、电量曲线、历史记录与数据导出</span>
           </div>
         </aside>
+      </div>
+    </section>
+
+    <section class="wall-proof" id="unlimited-wall" aria-labelledby="unlimited-wall-title">
+      <div class="wrap">
+        <div class="wall-proof-head">
+          <div>
+            <p class="kicker">ONEPLUS / OPPO / REALME · SYSTEMLESS</p>
+            <h2 class="wall-proof-title" id="unlimited-wall-title">
+              <span>欧加真</span>
+              <span class="wall-proof-accent">无上限内核温度墙</span>
+            </h2>
+          </div>
+          <div class="wall-proof-copy">
+            <p>云端授权为“无限制”时，自定义内核温度墙不设固定软件封顶。它不是把页面数字改高，而是由 Root 守护进程直接接管 Gauge、virtual gauge、USB、MOS 与充电 PMIC 等内核温度数据链路。</p>
+            <p>真实温度达到自定义阈值后独立断充，降低 5℃ 自动恢复；这套内核闭环不依赖 <code>/proc/shell-temp</code>。</p>
+          </div>
+        </div>
+
+        <div class="wall-proof-tech" aria-label="实现特点">
+          <article>
+            <strong>Systemless · 不动分区</strong>
+            <span>不写入 system、vendor 或 odm 分区，所有接管都在开机后的运行时完成。</span>
+          </article>
+          <article>
+            <strong>Kernel data-path takeover</strong>
+            <span>内核模块参数重写、virtual_ic overwrite payload 与 thermal/power_supply 数据源覆盖协同工作，无需额外元模块。</span>
+          </article>
+          <article>
+            <strong>Real-temperature feedback loop</strong>
+            <span>以独立真实温度源闭环判断断充与恢复，兼顾高阈值控制和可验证的安全回差。</span>
+          </article>
+        </div>
+
+        <div class="proof-gallery" aria-label="欧加真无上限内核温度墙实测图">
+          <figure class="proof-card">
+            <button class="proof-open" type="button"
+              data-proof-src="./assets/proof-oplus-unlimited-wall-fopbatt.jpg"
+              data-proof-caption="第三方充电统计实测：真实温度 71.5℃，充电功率曲线持续记录。"
+              aria-label="放大查看第三方充电统计实测图">
+              <span class="proof-media">
+                <img src="./assets/proof-oplus-unlimited-wall-fopbatt.jpg" loading="lazy" decoding="async" alt="第三方充电统计页面显示 71.5℃ 与充电功率曲线">
+              </span>
+              <span class="proof-caption">
+                <strong>71.5℃ · 第三方工具侧记录</strong>
+                <span>独立界面读取真实温度与充电功率，点击查看完整长图。</span>
+              </span>
+            </button>
+          </figure>
+
+          <figure class="proof-card">
+            <button class="proof-open" type="button"
+              data-proof-src="./assets/proof-oplus-unlimited-wall-71c.png"
+              data-proof-caption="AaTempSpoof 双电模式实测：最高真实温度 71.6℃，保留完整功率与温度曲线。"
+              aria-label="放大查看 71.6 摄氏度 AaTempSpoof 充电统计实测图">
+              <span class="proof-media">
+                <img src="./assets/proof-oplus-unlimited-wall-71c.png" loading="lazy" decoding="async" alt="AaTempSpoof 充电统计长图显示最高真实温度 71.6℃">
+              </span>
+              <span class="proof-caption">
+                <strong>71.6℃ · 双电高功率实测</strong>
+                <span>功率、温度与电量同步采样，完整保留高温区间变化。</span>
+              </span>
+            </button>
+          </figure>
+
+          <figure class="proof-card">
+            <button class="proof-open" type="button"
+              data-proof-src="./assets/proof-oplus-unlimited-wall-90c.jpg"
+              data-proof-caption="91℃ 自定义阈值实测：最高真实温度 90.1℃，达到阈值区间后结束充电。"
+              aria-label="放大查看 90.1 摄氏度高阈值实测图">
+              <span class="proof-media">
+                <img src="./assets/proof-oplus-unlimited-wall-90c.jpg" loading="lazy" decoding="async" alt="AaTempSpoof 充电统计长图显示 91℃ 自定义阈值与 90.1℃ 最高真实温度">
+              </span>
+              <span class="proof-caption">
+                <strong>91℃ 阈值 · 90.1℃ 实测</strong>
+                <span>自定义阈值不受固定上限截断，并由真实温度闭环控制。</span>
+              </span>
+            </button>
+          </figure>
+        </div>
+
+        <p class="proof-note">以上为真实设备功能验证记录，不代表建议的日常工作温度。解除或提高温控限制会放大电池、硬件与人身财产风险，请确保散热和设备状态可控。</p>
       </div>
     </section>
 
@@ -933,6 +1318,17 @@
       <a href="https://www.coolapk.com/u/33802586" target="_blank" rel="noopener noreferrer">作者：酷安@傻瓜我爱你呀喵</a>
     </div>
   </footer>
+
+  <dialog class="proof-dialog" id="proof-dialog" aria-labelledby="proof-dialog-caption">
+    <button class="proof-dialog-close" type="button" aria-label="关闭大图">×</button>
+    <figure class="proof-dialog-figure">
+      <div class="proof-dialog-media">
+        <img class="proof-dialog-image" id="proof-dialog-image" alt="">
+      </div>
+      <figcaption class="proof-dialog-caption" id="proof-dialog-caption"></figcaption>
+    </figure>
+  </dialog>
+
   <script>
     (() => {
       const target = document.getElementById('latest-version');
@@ -971,6 +1367,46 @@
           target.textContent = `当前最新版本：v${versions[versions.length - 1].text}`;
         })
         .catch(() => {});
+    })();
+
+    (() => {
+      const dialog = document.getElementById('proof-dialog');
+      const image = document.getElementById('proof-dialog-image');
+      const caption = document.getElementById('proof-dialog-caption');
+      const closeButton = dialog && dialog.querySelector('.proof-dialog-close');
+      const openers = Array.from(document.querySelectorAll('.proof-open[data-proof-src]'));
+      let lastOpener = null;
+
+      if (!dialog || !image || !caption || !closeButton || !openers.length) return;
+
+      const closeDialog = () => {
+        if (typeof dialog.close === 'function' && dialog.open) dialog.close();
+        else dialog.removeAttribute('open');
+      };
+
+      openers.forEach((opener) => {
+        opener.addEventListener('click', () => {
+          const preview = opener.querySelector('img');
+          lastOpener = opener;
+          image.src = opener.dataset.proofSrc || '';
+          image.alt = preview ? preview.alt : '欧加真无上限内核温度墙实测大图';
+          caption.textContent = opener.dataset.proofCaption || '';
+          document.body.classList.add('proof-dialog-open');
+          if (typeof dialog.showModal === 'function') dialog.showModal();
+          else dialog.setAttribute('open', '');
+          closeButton.focus();
+        });
+      });
+
+      closeButton.addEventListener('click', closeDialog);
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) closeDialog();
+      });
+      dialog.addEventListener('close', () => {
+        document.body.classList.remove('proof-dialog-open');
+        image.removeAttribute('src');
+        if (lastOpener) lastOpener.focus();
+      });
     })();
   </script>
 </body>
