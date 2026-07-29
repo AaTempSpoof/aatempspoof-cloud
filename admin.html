@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="noindex,nofollow">
+  <title>AaTempSpoof 远程管理</title>
+  <style>
+    :root{--tx:#171a21;--muted:#737b88;--line:#d8dde5;--soft:#f3f5f7;--fill:#171a21}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:#fff;color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"MiSans","HarmonyOS Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    body{min-height:100vh;display:grid;place-items:center;padding:calc(env(safe-area-inset-top,0px) + 24px) 18px calc(env(safe-area-inset-bottom,0px) + 24px)}
+    main{width:min(430px,100%)}
+    .brand{margin-bottom:18px}.brand b{font-size:clamp(25px,7vw,34px);line-height:1.1}.brand p{margin:7px 0 0;color:var(--muted)}
+    .route{display:grid;grid-template-columns:auto 1fr auto 1fr auto;align-items:center;gap:8px;margin-bottom:16px;color:var(--muted);font-size:12px;font-weight:750}
+    .route i{height:1px;background:var(--line);overflow:hidden}.route i::after{content:"";display:block;width:42%;height:1px;background:var(--fill);animation:flow 1.25s ease-in-out infinite}.route .phone{color:var(--tx)}
+    .card{border:1px solid var(--line);border-radius:12px;padding:20px;background:#fff}.card h1{margin:0;font-size:22px}.status{margin:8px 0 0;color:var(--muted);line-height:1.55}.detail{min-height:21px;margin:12px 0 0;color:var(--muted);font-size:13px}
+    button{display:none;width:100%;min-height:46px;margin-top:16px;border:1px solid var(--tx);border-radius:9px;background:var(--tx);color:#fff;font:750 15px inherit;cursor:pointer}button.show{display:block}
+    .foot{margin:14px 2px 0;color:var(--muted);font-size:12px;line-height:1.5}
+    @keyframes flow{from{transform:translateX(-110%)}to{transform:translateX(350%)}}
+    @media(prefers-reduced-motion:reduce){.route i::after{animation:none;width:100%}}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand"><b>AaTempSpoof</b><p>云端管理 · 链接控制这台手机</p></div>
+    <div class="route"><span>网站</span><i></i><span>安全隧道</span><i></i><span class="phone">手机</span></div>
+    <section class="card">
+      <h1>正在连接手机</h1>
+      <p class="status" id="status">正在读取当前安全入口，请稍候。</p>
+      <p class="detail" id="detail">手机在线后会自动进入密码页面。</p>
+      <button id="retry" type="button">重新连接</button>
+    </section>
+    <p class="foot">固定链接不会直接保存管理密码。手机关机、断网或未开启远程管理时无法连接。</p>
+  </main>
+  <script src="cloud-entry.js"></script>
+  <script>
+    const statusEl=document.getElementById('status');
+    const detailEl=document.getElementById('detail');
+    const retry=document.getElementById('retry');
+    let running=false;
+    async function connect(){
+      if(running)return;
+      running=true;
+      retry.classList.remove('show');
+      statusEl.textContent='正在读取当前安全入口，请稍候。';
+      detailEl.textContent='手机在线后会自动进入密码页面。';
+      try{
+        if(!window.AaTempCloud)throw new Error('固定入口脚本未加载');
+        const base=await window.AaTempCloud.resolve(true);
+        statusEl.textContent='已连接，正在进入密码页面。';
+        location.replace(base+'/admin');
+      }catch(error){
+        statusEl.textContent='暂时无法连接这台手机';
+        detailEl.textContent='请确认手机已开机并联网，稍后重新连接。';
+        retry.classList.add('show');
+      }finally{
+        running=false;
+      }
+    }
+    retry.addEventListener('click',connect);
+    connect();
+  </script>
+</body>
+</html>
