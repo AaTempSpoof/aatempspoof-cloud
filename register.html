@@ -89,17 +89,6 @@
       </div>
     </div>
   </div>
-  <div id="group-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="group-modal-title">
-    <div class="dialog">
-      <h2 id="group-modal-title">加入捐赠用户交流群</h2>
-      <p>是否加入捐赠用户 QQ 交流群？</p>
-      <div class="dialog-actions">
-        <button id="group-cancel" type="button">暂不加入</button>
-        <button id="group-go" type="button">加入群聊</button>
-      </div>
-    </div>
-  </div>
-
   <script src="cloud-entry.js"></script>
   <script>
     const REGISTER_LINK_MIN_TS = 1783532889;
@@ -110,9 +99,6 @@
     const idModal = document.getElementById('id-modal');
     const modalCancel = document.getElementById('modal-cancel');
     const modalGo = document.getElementById('modal-go');
-    const groupModal = document.getElementById('group-modal');
-    const groupCancel = document.getElementById('group-cancel');
-    const groupGo = document.getElementById('group-go');
     const idInput = document.getElementById('id');
     const tsInput = document.getElementById('ts');
     const sigInput = document.getElementById('sig');
@@ -344,8 +330,7 @@
         if (!resp.ok || (data && data.ok === false)) {
           throw new Error((data && data.message) || text || ('HTTP ' + resp.status));
         }
-        showResult('ok', (data && data.message) || text || '提交成功，请等待审核');
-        groupModal.classList.add('show');
+        location.href = 'https://qm.qq.com/q/70dbrHBlZ0';
       } catch (error) {
         const msg = error && error.message ? error.message : String(error || '');
         if (/failed to fetch|networkerror|load failed/i.test(msg)) {
@@ -373,18 +358,6 @@
     });
     modalGo.addEventListener('click', () => {
       location.href = new URL('register.sh', location.href).toString();
-    });
-
-    function closeGroupModal() {
-      groupModal.classList.remove('show');
-    }
-
-    groupCancel.addEventListener('click', closeGroupModal);
-    groupModal.addEventListener('click', event => {
-      if (event.target === groupModal) closeGroupModal();
-    });
-    groupGo.addEventListener('click', () => {
-      location.href = 'https://qm.qq.com/q/70dbrHBlZ0';
     });
 
     fillFromLink();
