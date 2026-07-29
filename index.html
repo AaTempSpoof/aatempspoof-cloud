@@ -426,7 +426,7 @@
 
     .notice-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 22px;
     }
 
@@ -841,7 +841,7 @@
           <div class="addon-list">
             <div class="addon-item">
               <strong>热控配置覆盖</strong>
-              <span>修改并挂载系统 thermal XML 配置；配置页还可将识别到的 GPU、DDR 系统温度墙提高至 120℃。</span>
+              <span>修改并挂载系统 thermal XML 配置；配置页还可将识别到的 GPU、DDR 系统温度墙提高至 120℃。不能与其他去温控、温度伪装类模块混用。</span>
             </div>
             <div class="addon-item">
               <strong>移除超级省电<em class="platform-badge">OnePlus</em></strong>
@@ -902,6 +902,10 @@
           <div class="notice-item">
             <strong>opbatt 兼容性</strong>
             8.2.6.2 Alpha 之后的版本不兼容 AaTempSpoof 内核温度墙接管。如需该功能请使用 8.2.6.2 或更低版本；其他功能可正常使用。
+          </div>
+          <div class="notice-item">
+            <strong>去温控与伪装模块冲突</strong>
+            不要同时启用其他去温控或温度伪装类模块。重复挂载热控 XML、修改 Horae 或写入温度节点会互相覆盖，可能造成配置失效、温控异常或系统重启。
           </div>
         </div>
       </div>
