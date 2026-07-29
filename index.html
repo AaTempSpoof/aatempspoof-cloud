@@ -3,10 +3,768 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AaTempSpoof</title>
+  <meta name="description" content="AaTempSpoof：面向 Root 用户的 Android 温度伪装、内核充电温度接管与充电统计工具。">
+  <meta name="theme-color" content="#f4f6f7">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AaTempSpoof">
+  <meta property="og:description" content="Android 温度伪装与充电控制模块">
+  <meta property="og:url" content="https://aatempspoof.github.io/aatempspoof-cloud/">
+  <link rel="canonical" href="https://aatempspoof.github.io/aatempspoof-cloud/">
+  <title>AaTempSpoof｜Android 温度伪装与充电控制</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f4f6f7;
+      --surface: #fff;
+      --ink: #182126;
+      --text: #38464d;
+      --muted: #718087;
+      --line: #dce3e6;
+      --accent: #08a7bb;
+      --accent-dark: #087f8e;
+      --accent-soft: #eaf8fa;
+      --warn: #7d4c12;
+      --warn-bg: #fff9ed;
+      --warn-line: #e8c98d;
+      --content: 1040px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--page);
+    }
+
+    body {
+      margin: 0;
+      min-width: 280px;
+      background: var(--page);
+      color: var(--ink);
+      font: 14.5px/1.68 "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus-visible {
+      outline: 3px solid rgba(8, 167, 187, .3);
+      outline-offset: 3px;
+    }
+
+    .wrap {
+      width: min(calc(100% - 40px), var(--content));
+      margin: 0 auto;
+    }
+
+    .skip {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 10;
+      padding: 7px 12px;
+      border-radius: 8px;
+      background: var(--ink);
+      color: #fff;
+      transform: translateY(-150%);
+    }
+
+    .skip:focus {
+      transform: translateY(0);
+    }
+
+    .site-header {
+      border-bottom: 1px solid var(--line);
+      background: rgba(244, 246, 247, .96);
+    }
+
+    .header-inner {
+      display: flex;
+      min-height: 62px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .identity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      text-decoration: none;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .nav a {
+      text-decoration: none;
+    }
+
+    .nav a:hover {
+      color: var(--accent-dark);
+    }
+
+    .hero {
+      padding: 36px 0;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(320px, .88fr);
+      gap: 52px;
+      align-items: start;
+    }
+
+    .kicker {
+      margin: 0 0 10px;
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 640px;
+      margin-bottom: 18px;
+      font-size: clamp(34px, 4.2vw, 44px);
+      line-height: 1.08;
+      letter-spacing: -.05em;
+    }
+
+    h1 span {
+      display: block;
+    }
+
+    .title-accent {
+      color: var(--accent-dark);
+    }
+
+    .hero-copy {
+      max-width: 620px;
+      margin-bottom: 24px;
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 40px;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 16px;
+      border: 1px solid var(--ink);
+      border-radius: 10px;
+      background: var(--ink);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .button:hover {
+      border-color: var(--accent-dark);
+      background: var(--accent-dark);
+    }
+
+    .text-link {
+      color: var(--text);
+      font-weight: 650;
+      text-underline-offset: 4px;
+    }
+
+    .summary {
+      padding: 17px 19px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+    }
+
+    .summary-title {
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: 78px minmax(0, 1fr);
+      gap: 14px;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .summary-row strong {
+      color: var(--accent-dark);
+      font-size: 14px;
+    }
+
+    .summary-row span {
+      color: var(--text);
+    }
+
+    .focus {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .focus-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 26px;
+    }
+
+    .focus-head h2 {
+      margin-bottom: 0;
+      font-size: 22px;
+      letter-spacing: -.03em;
+    }
+
+    .focus-head span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .focus-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 18px;
+    }
+
+    .focus-item {
+      min-height: 132px;
+      padding: 18px 22px 24px 0;
+      border-top: 2px solid var(--accent);
+    }
+
+    .focus-item + .focus-item {
+      padding-left: 22px;
+      border-left: 1px solid var(--line);
+    }
+
+    .focus-item h3 {
+      margin-bottom: 8px;
+      font-size: 17px;
+      letter-spacing: -.02em;
+    }
+
+    .focus-item p {
+      margin-bottom: 0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .section {
+      padding: 48px 0;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .7fr) minmax(280px, 1fr);
+      gap: 42px;
+      align-items: end;
+      margin-bottom: 26px;
+    }
+
+    .section-head h2 {
+      margin-bottom: 0;
+      font-size: 28px;
+      line-height: 1.25;
+      letter-spacing: -.04em;
+    }
+
+    .section-head p {
+      margin-bottom: 0;
+      color: var(--text);
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 28px;
+      row-gap: 0;
+    }
+
+    .feature {
+      padding: 19px 0 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .feature-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .feature h3 {
+      margin-bottom: 9px;
+      font-size: 18px;
+      letter-spacing: -.025em;
+    }
+
+    .feature ul {
+      display: grid;
+      gap: 5px;
+      margin: 0;
+      padding-left: 19px;
+      color: var(--text);
+    }
+
+    .feature li::marker {
+      color: var(--accent);
+    }
+
+    .notice {
+      padding: 24px;
+      border: 1px solid var(--warn-line);
+      border-radius: 14px;
+      background: var(--warn-bg);
+    }
+
+    .notice h2 {
+      margin-bottom: 8px;
+      color: var(--warn);
+      font-size: 24px;
+      letter-spacing: -.03em;
+    }
+
+    .notice-lead {
+      margin-bottom: 22px;
+      color: #604a31;
+    }
+
+    .notice-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .notice-item {
+      padding-top: 14px;
+      border-top: 1px solid rgba(125, 76, 18, .22);
+      color: #604a31;
+      font-size: 14px;
+    }
+
+    .notice-item strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--warn);
+    }
+
+    .get {
+      padding: 28px;
+      border: 1px solid #b9e2e7;
+      border-radius: 14px;
+      background: var(--accent-soft);
+    }
+
+    .get-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .get h2 {
+      margin-bottom: 7px;
+      font-size: 27px;
+      letter-spacing: -.035em;
+    }
+
+    .get p {
+      max-width: 650px;
+      margin-bottom: 0;
+      color: var(--text);
+    }
+
+    .get-actions {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      gap: 16px;
+    }
+
+    footer {
+      padding: 24px 0 34px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .footer-inner a {
+      color: var(--text);
+      text-underline-offset: 4px;
+    }
+
+    @media (max-width: 800px) {
+      .hero-grid,
+      .section-head {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .focus-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .focus-item {
+        min-height: 0;
+        padding: 18px 0;
+        border-top-width: 1px;
+      }
+
+      .focus-item:first-child {
+        border-top-width: 2px;
+      }
+
+      .focus-item + .focus-item {
+        padding-left: 0;
+        border-left: 0;
+      }
+
+      .notice-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .get-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 22px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .wrap {
+        width: min(calc(100% - 28px), var(--content));
+      }
+
+      .header-inner {
+        min-height: 56px;
+      }
+
+      .nav a:first-child {
+        display: none;
+      }
+
+      .nav {
+        gap: 14px;
+        font-size: 13px;
+      }
+
+      .hero {
+        padding: 26px 0 28px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .hero-copy {
+        font-size: 15px;
+      }
+
+      .summary {
+        padding: 16px 18px;
+      }
+
+      .summary-row {
+        grid-template-columns: 70px minmax(0, 1fr);
+      }
+
+      .focus-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+        padding-top: 22px;
+      }
+
+      .section {
+        padding: 36px 0;
+      }
+
+      .section-head {
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .section-head h2 {
+        font-size: 23px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature {
+        padding: 17px 0 20px;
+      }
+
+      .notice,
+      .get {
+        padding: 20px 18px;
+      }
+
+      .get-actions {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        gap: 6px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .nav a:first-child,
+      .nav a:nth-child(2) {
+        display: none;
+      }
+
+      .hero-actions {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>AaTempSpoof</h1>
-  <p>Cloud entry is being initialized.</p>
+  <a class="skip" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="identity">
+        <a class="logo" href="./">AaTempSpoof</a>
+      </div>
+      <nav class="nav" aria-label="页面导航">
+        <a href="#features">功能</a>
+        <a href="#get">获取模块</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="kicker">AaTempSpoof · ROOT</p>
+          <h1><span>温度伪装</span><span class="title-accent">充电控制</span></h1>
+          <p class="hero-copy">
+            覆盖多源温度、内核充电温度链路与充电记录；配置、状态和快捷控制集中在同一套界面中。
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="./sponsor.html">获取模块</a>
+            <a class="text-link" href="https://www.coolapk.com/u/33802586" target="_blank" rel="noopener noreferrer">作者酷安主页</a>
+          </div>
+        </div>
+
+        <aside class="summary" aria-label="核心能力">
+          <div class="summary-title">核心能力</div>
+          <div class="summary-row">
+            <strong>温度伪装</strong>
+            <span>CPU、GPU、内存、电池与其他温度源独立配置</span>
+          </div>
+          <div class="summary-row">
+            <strong>内核接管</strong>
+            <span>电池上下层、USB、MOS、充电 PMIC 与温度墙</span>
+          </div>
+          <div class="summary-row">
+            <strong>充电记录</strong>
+            <span>功率、温度、电量曲线、历史记录与数据导出</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="focus" id="focus" aria-labelledby="focus-title">
+      <div class="wrap">
+        <div class="focus-head">
+          <h2 id="focus-title">当前版本重点</h2>
+          <span>当前最新版本：v14.7</span>
+        </div>
+        <div class="focus-grid">
+          <article class="focus-item">
+            <h3>内核电池温度伪装</h3>
+            <p>扩展上层 Gauge、底层虚拟 Gauge、USB、BTB、MOS 与充电 PMIC 温度来源，并加强退出恢复。</p>
+          </article>
+          <article class="focus-item">
+            <h3>充电温度墙适配</h3>
+            <p>统一协调普通电池伪装、动态伪装与内核温度墙，减少多层温度来源互相冲突。</p>
+          </article>
+          <article class="focus-item">
+            <h3>系统温控配置覆盖</h3>
+            <p>加强 GPU、DDR 与不同厂商热控配置的识别、挂载和回退处理。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features" aria-labelledby="features-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 id="features-title">完整功能</h2>
+          <p>以下内容依据当前 WebUI、主程序、启动脚本与配套应用源码整理；部分能力依赖机型、内核和厂商实现。</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature">
+            <span class="feature-label">温度与数值</span>
+            <h3>多源伪装配置</h3>
+            <ul>
+              <li>CPU、GPU、内存、电池和其他温度源可分别启停。</li>
+              <li>支持固定值、动态区间，以及充电开始、最高、截止温度和持续时间。</li>
+              <li>支持电池循环次数与系统电量显示伪装。</li>
+              <li>提供应用白名单、黑名单及仅充电时启用等控制方式。</li>
+            </ul>
+          </article>
+
+          <article class="feature">
+            <span class="feature-label">内核充电</span>
+            <h3>温度链路与温度墙</h3>
+            <ul>
+              <li>统一控制电池上层、底层、USB、MOS 和充电 PMIC 五项内核温度伪装。</li>
+              <li>覆盖 gauge_dbg_tbat、virtual_ic、usb-therm、BTB 等常见来源。</li>
+              <li>可设置真实电池断充阈值，达到阈值断充，降低 5℃ 后恢复。</li>
+              <li>关闭功能或进程退出时，主动恢复模块接管的内核输出。</li>
+            </ul>
+          </article>
+
+          <article class="feature">
+            <span class="feature-label">充电策略</span>
+            <h3>断电与状态控制</h3>
+            <ul>
+              <li>支持欧加真充电温度墙、全局旁路和充电时停用电池伪装。</li>
+              <li>一加设备可配置自动伪装插拔、智能协议、截止电量与插拔间隔。</li>
+              <li>支持断电期间伪装充电状态，减少第三方充电记录被分段。</li>
+              <li>可按自定义电量或时间范围停止充电。</li>
+            </ul>
+          </article>
+
+          <article class="feature">
+            <span class="feature-label">充电统计</span>
+            <h3>实时数据与历史记录</h3>
+            <ul>
+              <li>显示状态、电量、电池与充电器功率、真实/伪装温度、电压、循环和容量。</li>
+              <li>统计充电时段、持续时间、充入电量与能量。</li>
+              <li>记录功率或电流、电量及温度曲线；充满后停止继续记录功率曲线。</li>
+              <li>支持单/双电芯配置、历史记录、删除和完整长图导出。</li>
+            </ul>
+          </article>
+
+          <article class="feature">
+            <span class="feature-label">系统与性能</span>
+            <h3>厂商策略控制</h3>
+            <ul>
+              <li>修改 GPU、DDR 系统温度墙并挂载覆盖系统热控配置。</li>
+              <li>支持全局禁用 Horae，或按应用配置 Horae 白名单与黑名单。</li>
+              <li>包含 ColorOS 墓碑策略、移除超级省电与停用 HW 叠加层。</li>
+              <li>一加设备可配置触控采样率；具体档位以设备实际支持为准。</li>
+            </ul>
+          </article>
+
+          <article class="feature">
+            <span class="feature-label">配套应用</span>
+            <h3>快捷磁贴与真实温度</h3>
+            <ul>
+              <li>通过控制中心快捷磁贴切换总开关，并与应用状态双向同步。</li>
+              <li>充电时可显示原生实时通知或流体云，包含功率、电量与真实电池温度。</li>
+              <li>桌面入口可自行显示或隐藏，配套应用支持 Root 状态与更新检查。</li>
+              <li>LSPosed 可将 AaTempSpoof 的真实电池温度提供给 Scene 与充电岛。</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="notice-title">
+      <div class="wrap notice">
+        <h2 id="notice-title">使用前必须知道</h2>
+        <p class="notice-lead">温度伪装只会改变系统读取值，不会降低设备真实温度。修改内核温度和热控策略前，请先确认设备散热与电池状态。</p>
+        <div class="notice-grid">
+          <div class="notice-item">
+            <strong>环境与兼容性</strong>
+            需要 Root。配套快捷应用支持 Magisk、KernelSU 与 APatch 环境，并要求 Android 8.0 或更高版本。实际节点和效果会随机型、内核及系统版本变化。
+          </div>
+          <div class="notice-item">
+            <strong>内核温度风险</strong>
+            内核伪装可能使系统读取到虚假的正常温度，削弱原有限流、降功率或断充保护。高温使用可能造成电池、设备及人身财产风险。
+          </div>
+          <div class="notice-item">
+            <strong>opbatt 兼容性</strong>
+            8.2.6.2 Alpha 之后的版本不兼容 AaTempSpoof 内核温度墙接管。如需该功能请使用 8.2.6.2 或更低版本；其他功能可正常使用。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="get" aria-labelledby="get-title">
+      <div class="wrap get">
+        <div class="get-inner">
+          <div>
+            <h2 id="get-title">获取 AaTempSpoof</h2>
+            <p>模块不提供公开安装包直链。请进入捐赠页面，按页面提示完成模块获取与注册流程。</p>
+          </div>
+          <div class="get-actions">
+            <a class="button" href="./sponsor.html">前往捐赠与获取</a>
+            <a class="text-link" href="https://www.coolapk.com/u/33802586" target="_blank" rel="noopener noreferrer">联系作者</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <span>AaTempSpoof · Android 温度伪装与充电控制模块</span>
+      <a href="https://www.coolapk.com/u/33802586" target="_blank" rel="noopener noreferrer">作者：酷安@傻瓜我爱你呀喵</a>
+    </div>
+  </footer>
 </body>
 </html>
