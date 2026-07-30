@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="referrer" content="no-referrer">
+  <title>AaTempSpoof 温度墙授权</title>
+  <style>
+    :root{--bg:#fff;--tx:#171a21;--muted:#737b88;--line:#d8dde5;--soft:#f6f7f9;--ok:#16803c;--err:#b42318;--shade:rgba(16,20,28,.36)}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    main{width:min(100%,520px);margin:0 auto;padding:28px 18px 34px}
+    header{padding:10px 0 18px;border-bottom:1px solid var(--line)}
+    h1{margin:0;font-size:28px;line-height:1.15;letter-spacing:0}
+    .muted{margin-top:8px;color:var(--muted);font-size:14px;line-height:1.6}
+    form{display:grid;gap:14px;margin-top:22px}
+    label{display:grid;gap:7px;font-size:14px;font-weight:760}
+    input{width:100%;height:46px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--tx);padding:0 12px;font-size:16px;outline:none}
+    input:focus{border-color:#8b94a3}
+    input:disabled{background:var(--soft);color:#9aa2af}
+    button{height:46px;border:1px solid #c8d0dc;border-radius:8px;background:#fff;color:var(--tx);font-size:16px;font-weight:800;display:grid;place-items:center}
+    button:disabled{color:#9aa2af;background:var(--soft)}
+    .result{display:none;margin-top:16px;border:1px solid var(--line);border-radius:8px;padding:12px;font-size:14px;line-height:1.6;word-break:break-word}
+    .result.ok{display:block;border-color:#b7dfc5;color:var(--ok);background:#f6fff8}
+    .result.err{display:block;border-color:#efc4c0;color:var(--err);background:#fff7f6}
+    .input-action-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:end}
+    .input-action-row>label{min-width:0}
+    .compact-action{height:46px;padding:0 10px;font-size:14px;white-space:nowrap}
+    #get-id{min-width:84px}
+    .foot{margin:16px 2px 0;color:var(--muted);font-size:12px;line-height:1.6}
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:var(--shade);padding:18px;z-index:20}
+    .modal.show{display:flex}
+    .dialog{width:min(100%,430px);border:1px solid var(--line);border-radius:8px;background:#fff;padding:18px;box-shadow:0 18px 50px rgba(20,25,35,.16)}
+    .dialog h2{margin:0 0 8px;font-size:20px;line-height:1.25}
+    .dialog p{margin:0;color:var(--muted);font-size:14px;line-height:1.65}
+    .dialog-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    @media(max-width:420px){main{padding:22px 14px 30px}h1{font-size:25px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>AaTempSpoof 温度墙授权</h1>
+      <div id="mode-note" class="muted">正在读取授权类型...</div>
+    </header>
+    <form id="form" autocomplete="off">
+      <div class="input-action-row">
+        <label>设备主板 ID
+          <input id="id" name="id" inputmode="text" required minlength="4" maxlength="96" placeholder="请输入设备主板 ID">
+        </label>
+        <button id="get-id" class="compact-action" type="button">获取 ID</button>
+      </div>
+      <input id="ts" name="ts" type="hidden">
+      <input id="sig" name="sig" type="hidden">
+      <input id="nonce" name="nonce" type="hidden">
+      <input id="mode" name="mode" type="hidden">
+      <button id="submit" type="submit" disabled>提交设备 ID</button>
+    </form>
+    <div id="result" class="result"></div>
+    <p class="foot">本页面只提交设备 ID，不收集姓名、身份证、签名或协议照片。提交成功后请按提示重启手机或重新刷入模块。</p>
+  </main>
+  <div id="id-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="id-modal-title">
+    <div class="dialog">
+      <h2 id="id-modal-title">获取设备主板 ID</h2>
+      <p>下载获取脚本后，在需要授权的设备上使用 root 权限执行。脚本只会显示设备 ID，复制后回到本页填写。</p>
+      <div class="dialog-actions">
+        <button id="modal-cancel" type="button">取消</button>
+        <button id="modal-go" type="button">跳转</button>
+      </div>
+    </div>
+  </div>
+  <script src="cloud-entry.js"></script>
+  <script>
+    const MIN_TS = 1783532889;
+    const MAX_AGE = 7 * 24 * 60 * 60;
+    const form = document.getElementById('form');
+    const result = document.getElementById('result');
+    const submitBtn = document.getElementById('submit');
+    const idInput = document.getElementById('id');
+    const modeNote = document.getElementById('mode-note');
+    const modeInput = document.getElementById('mode');
+    const tsInput = document.getElementById('ts');
+    const sigInput = document.getElementById('sig');
+    const nonceInput = document.getElementById('nonce');
+    const idModal = document.getElementById('id-modal');
+    let linkValid = false;
+
+    function clean(value) { return String(value || '').replace(/\s+/g, '').trim(); }
+    function showResult(type, text) { result.className = 'result ' + type; result.textContent = text; }
+    function expired(ts) {
+      const value = Number(ts);
+      if (!Number.isFinite(value) || value <= 0) return true;
+      const seconds = value >= 1000000000000 ? Math.floor(value / 1000) : value;
+      return seconds < MIN_TS || Math.abs(Math.floor(Date.now() / 1000) - seconds) > MAX_AGE;
+    }
+    async function apiFetch(path, options) {
+      if (!window.AaTempCloud) throw new Error('云端入口脚本未加载');
+      return window.AaTempCloud.request(path, options, 4);
+    }
+    function fillFromLink() {
+      const raw = location.hash.length > 1 ? location.hash.slice(1) : location.search.slice(1);
+      const params = new URLSearchParams(raw);
+      const ts = clean(params.get('ts'));
+      const sig = clean(params.get('sig'));
+      const nonce = clean(params.get('nonce'));
+      const mode = clean(params.get('mode')).toLowerCase();
+      if (raw) { try { history.replaceState(null, '', location.pathname); } catch (_) {} }
+      tsInput.value = ts;
+      sigInput.value = sig;
+      nonceInput.value = nonce;
+      modeInput.value = mode;
+      modeNote.textContent = mode === 'blacklist' ? '当前为黑名单授权，仅用于人工确认后的设备处理。' :
+        (mode === 'whitelist' ? '当前为白名单授权，仅用于人工确认后的设备处理。' : '授权参数缺失，请联系开发者获取新链接。');
+      if (ts && sig && nonce && (mode === 'whitelist' || mode === 'blacklist') && !expired(ts)) {
+        linkValid = true;
+        submitBtn.disabled = false;
+        showResult('ok', '一次性授权链接已载入，请填写设备 ID');
+      } else {
+        submitBtn.disabled = true;
+        showResult('err', '授权链接无效或已过期，请联系开发者获取新链接');
+      }
+    }
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      const id = clean(idInput.value);
+      if (!linkValid || !id) { showResult('err', '请填写有效的设备 ID'); idInput.focus(); return; }
+      submitBtn.disabled = true;
+      submitBtn.textContent = '提交中...';
+      showResult('ok', '正在连接你的 AaTempSpoof 云端入口...');
+      try {
+        const resp = await apiFetch('/temperature-wall/submit', {
+          method: 'POST',
+          referrerPolicy: 'no-referrer',
+          headers: {'Content-Type':'application/x-www-form-urlencoded'},
+          body: new URLSearchParams({id, mode: modeInput.value, ts: tsInput.value, sig: sigInput.value, nonce: nonceInput.value}),
+        });
+        const text = await resp.text();
+        let data = null;
+        try { data = JSON.parse(text); } catch (_) {}
+        if (!resp.ok || (data && data.ok === false)) throw new Error((data && data.message) || text || ('HTTP ' + resp.status));
+        linkValid = false;
+        showResult('ok', (data && data.message) || '设备 ID 已提交，请重启手机或重新刷入模块后生效');
+        idInput.disabled = true;
+      } catch (error) {
+        submitBtn.disabled = false;
+        const message = error && error.message ? error.message : String(error || '');
+        showResult('err', /failed to fetch|networkerror|load failed|云端入口/i.test(message) ?
+          '提交失败：云端入口正在自动切换，请稍后重试' : '提交失败：' + message);
+      } finally {
+        submitBtn.textContent = '提交设备 ID';
+      }
+    });
+    function closeModal() { idModal.classList.remove('show'); }
+    document.getElementById('get-id').addEventListener('click', () => idModal.classList.add('show'));
+    document.getElementById('modal-cancel').addEventListener('click', closeModal);
+    idModal.addEventListener('click', event => { if (event.target === idModal) closeModal(); });
+    document.getElementById('modal-go').addEventListener('click', () => { location.href = new URL('register.sh', location.href).toString(); });
+    fillFromLink();
+  </script>
+</body>
+</html>
