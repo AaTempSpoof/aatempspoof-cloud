@@ -336,7 +336,7 @@
         <p class="lead">赞助用于支持项目维护与后续更新。完成付款确认后，一次性注册链接将发送到您填写的邮箱。</p>
         <div class="threshold">
           <span>自动识别规则</span>
-          <strong>9元以上即可</strong>
+          <strong id="minimumRule">9元以上即可</strong>
         </div>
       </div>
 
@@ -374,9 +374,9 @@
           <div class="amount-band">
             <div>
               <div class="amount-label">本次赞助金额</div>
-              <div class="amount-help">支付9元以上即可，可按自己的意愿多付。</div>
+              <div class="amount-help" id="minimumHelp">支付9元以上即可，可按自己的意愿多付。</div>
             </div>
-            <div class="amount-value">9.00 元以上</div>
+            <div class="amount-value" id="minimumValue">9.00 元以上</div>
           </div>
 
           <div class="payment-methods">
@@ -403,7 +403,7 @@
 
           <ol class="steps">
             <li>任选微信或支付宝，扫描对应的收款码。</li>
-            <li>支付9元以上金额，可按自己的意愿多付。</li>
+            <li id="minimumStep">支付9元以上金额，可按自己的意愿多付。</li>
             <li>请在付款倒计时结束前完成支付，并保持本页打开。</li>
             <li>系统确认后会将一次性注册链接发送到邮箱，请同时检查垃圾邮件目录。</li>
           </ol>
@@ -438,6 +438,10 @@
     const timer = document.getElementById('timer');
     const successMessage = document.getElementById('successMessage');
     const restartButton = document.getElementById('restartButton');
+    const minimumRule = document.getElementById('minimumRule');
+    const minimumHelp = document.getElementById('minimumHelp');
+    const minimumValue = document.getElementById('minimumValue');
+    const minimumStep = document.getElementById('minimumStep');
     const storageKey = 'aatempspoofSponsorIntent';
 
     function readStoredIntent() {
@@ -459,10 +463,36 @@
     let estimateUpdatedAt = 0;
     let statusTimer = 0;
     let countdownTimer = 0;
+    let sponsorMinimumCents = 900;
 
     async function apiFetch(path, options) {
       if (!window.AaTempCloud) throw new Error('云端入口脚本未加载');
       return window.AaTempCloud.request(path, options, 3);
+    }
+
+    function sponsorAmountText(cents, fixed) {
+      const amount = (cents / 100).toFixed(2);
+      return fixed ? amount : amount.replace(/\.00$/, '').replace(/(\.\d)0$/, '$1');
+    }
+
+    function applySponsorAmount(value) {
+      const cents = Number(value);
+      if (!Number.isInteger(cents) || cents < 1 || cents > 999999) return;
+      sponsorMinimumCents = cents;
+      const shortAmount = sponsorAmountText(cents, false);
+      const fixedAmount = sponsorAmountText(cents, true);
+      minimumRule.textContent = `${shortAmount}元以上即可`;
+      minimumHelp.textContent = `支付${shortAmount}元以上即可，可按自己的意愿多付。`;
+      minimumValue.textContent = `${fixedAmount} 元以上`;
+      minimumStep.textContent = `支付${shortAmount}元以上金额，可按自己的意愿多付。`;
+    }
+
+    async function loadSponsorConfig() {
+      try {
+        const response = await apiFetch('/sponsor/config', { cache: 'no-store' });
+        const data = await response.json();
+        if (response.ok && data.ok && !intentId) applySponsorAmount(data.minAmountCents);
+      } catch (_) {}
     }
 
     function setStatus(text, paid = false) {
@@ -512,6 +542,7 @@
 
     function applyStatus(data) {
       let finished = false;
+      applySponsorAmount(data.amountCents);
       queueState = data.queueState || (data.status === 'paid' ? 'paid' : '');
       deadlineAt = Number(data.deadlineAt || 0);
       serverOffset = Number(data.serverNow || Date.now()) - Date.now();
@@ -538,7 +569,7 @@
       } else if (queueState === 'paying') {
         setStatus('等待付款');
         queuePosition.textContent = '付款时段已为您锁定';
-        queueMessage.textContent = '请在倒计时结束前支付9元以上，可按自己的意愿多付。';
+        queueMessage.textContent = `请在倒计时结束前支付${sponsorAmountText(sponsorMinimumCents, false)}元以上，可按自己的意愿多付。`;
         paymentContent.hidden = false;
       } else if (queueState === 'confirming') {
         setStatus('确认到账');
@@ -659,6 +690,7 @@
       window.location.reload();
     });
 
+    loadSponsorConfig();
     if (intentId) {
       form.hidden = true;
       paymentStage.hidden = false;
