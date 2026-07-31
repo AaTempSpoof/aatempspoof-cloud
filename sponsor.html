@@ -336,7 +336,7 @@
         <p class="lead">赞助用于支持项目维护与后续更新。完成付款确认后，一次性注册链接将发送到您填写的邮箱。</p>
         <div class="threshold">
           <span>自动识别规则</span>
-          <strong id="minimumRule">9.9元以上即可</strong>
+          <strong id="minimumRule">9.1元以上即可</strong>
         </div>
       </div>
 
@@ -374,9 +374,9 @@
           <div class="amount-band">
             <div>
               <div class="amount-label">本次赞助金额</div>
-              <div class="amount-help" id="minimumHelp">支付9.9元以上即可，可按自己的意愿多付。</div>
+              <div class="amount-help" id="minimumHelp">支付9.1元以上即可，可按自己的意愿多付。</div>
             </div>
-            <div class="amount-value" id="minimumValue">9.90 元以上</div>
+            <div class="amount-value" id="minimumValue">9.10 元以上</div>
           </div>
 
           <div class="payment-methods">
@@ -403,7 +403,7 @@
 
           <ol class="steps">
             <li>任选微信或支付宝，扫描对应的收款码。</li>
-            <li id="minimumStep">支付9.9元以上金额，可按自己的意愿多付。</li>
+            <li id="minimumStep">支付9.1元以上金额，可按自己的意愿多付。</li>
             <li>请在付款倒计时结束前完成支付，并保持本页打开。</li>
             <li>系统确认后会将一次性注册链接发送到邮箱，请同时检查垃圾邮件目录。</li>
           </ol>
@@ -463,7 +463,7 @@
     let estimateUpdatedAt = 0;
     let statusTimer = 0;
     let countdownTimer = 0;
-    let sponsorMinimumCents = 990;
+    let sponsorMinimumCents = 910;
 
     async function apiFetch(path, options) {
       if (!window.AaTempCloud) throw new Error('云端入口脚本未加载');
