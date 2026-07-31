@@ -336,7 +336,7 @@
         <p class="lead">赞助用于支持项目维护与后续更新。完成付款确认后，一次性注册链接将发送到您填写的邮箱。</p>
         <div class="threshold">
           <span>自动识别规则</span>
-          <strong>9元以上即可</strong>
+          <strong>6元以上即可</strong>
         </div>
       </div>
 
@@ -374,9 +374,9 @@
           <div class="amount-band">
             <div>
               <div class="amount-label">本次赞助金额</div>
-              <div class="amount-help">支付9元以上即可，可按自己的意愿多付。</div>
+              <div class="amount-help">支付6元以上即可，可按自己的意愿多付。</div>
             </div>
-            <div class="amount-value">9.00 元以上</div>
+            <div class="amount-value">6.00 元以上</div>
           </div>
 
           <div class="payment-methods">
@@ -403,7 +403,7 @@
 
           <ol class="steps">
             <li>任选微信或支付宝，扫描对应的收款码。</li>
-            <li>支付9元以上金额，可按自己的意愿多付。</li>
+            <li>支付6元以上金额，可按自己的意愿多付。</li>
             <li>请在付款倒计时结束前完成支付，并保持本页打开。</li>
             <li>系统确认后会将一次性注册链接发送到邮箱，请同时检查垃圾邮件目录。</li>
           </ol>
@@ -538,7 +538,7 @@
       } else if (queueState === 'paying') {
         setStatus('等待付款');
         queuePosition.textContent = '付款时段已为您锁定';
-        queueMessage.textContent = '请在倒计时结束前支付9元以上，可按自己的意愿多付。';
+        queueMessage.textContent = '请在倒计时结束前支付6元以上，可按自己的意愿多付。';
         paymentContent.hidden = false;
       } else if (queueState === 'confirming') {
         setStatus('确认到账');
