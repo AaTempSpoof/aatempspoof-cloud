@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1785780750,
+  "generated": 1785781654,
   "files": [
     {
       "path": "AaTempSpoof_v14.4.zip",
@@ -116,11 +116,10 @@
     },
     {
       "path": "changelog.md",
-      "size": 3067,
-      "mtime": 1784990196,
+      "size": 4697,
+      "mtime": 1785781654,
       "domain": "main",
-      "gitSha": "249f7ae83c58e8e357ed7f5b455c60df272c3ae2",
-      "sha256": "5a79ab3f7725bf0aae384c481c8d253dfabea6efdbb2799ec7f757092c2a587b"
+      "gitSha": "040dbe0390c50cc64a08c10ac554e41aef8b7fa6"
     },
     {
       "path": "cloud-entry.js",
@@ -205,10 +204,9 @@
     {
       "path": "update.json",
       "size": 211,
-      "mtime": 1784885588,
+      "mtime": 1785781654,
       "domain": "main",
-      "gitSha": "9d44150831b0a4b229704679417f36b4dc5fe0ca",
-      "sha256": "d0e4bcf6551ff5e01f9a23cb476e1d7ee04cd5c2d4e4333c6fc974808bf9c038"
+      "gitSha": "8edff3030f1851fd391f6c8c802d6151694145b0"
     },
     {
       "path": "捐赠名单.md",
@@ -245,18 +243,18 @@
     {
       "path": "温度墙.txt",
       "size": 3,
-      "mtime": 1785738191,
+      "mtime": 1785781654,
       "domain": "main",
-      "gitSha": "1479e19b5fdf6c32d2eb41dad16203706f7d663d",
-      "sha256": "979b894f2d91bf199766571d58024f020d1a44a417da5f48e1fa1cdf554a14f5"
+      "gitSha": "abdfb053e41e2af75ba7e11f82b4ef0c312566a7",
+      "sha256": "95cf32708a31caa478a0e9141103ac567d85e5186e697e7e0c81f75589999e31"
     },
     {
       "path": "温度墙.txt.sig",
       "size": 129,
-      "mtime": 1785738191,
+      "mtime": 1785781654,
       "domain": "main",
-      "gitSha": "3691ad3a93a77b7c0b3a0005ceb2b9bd6ee172d9",
-      "sha256": "d8c1851465f5e9a41d054dec43fe26725daeaba802a73de5ffaf4b3b4467fb68"
+      "gitSha": "f7048e8c2885ac6bc7e402e70339b5ade0fd3443",
+      "sha256": "5c04b20439aff205cb97b0efae294b280a9685c7ce3117683d6d1ce17a8908fd"
     },
     {
       "path": "温度墙机型规则.txt",
@@ -277,18 +275,18 @@
     {
       "path": "温度墙策略.txt",
       "size": 476,
-      "mtime": 1785775883,
+      "mtime": 1785781654,
       "domain": "main",
-      "gitSha": "7bc56aeb450a7574c0519148403298d71c4f4a32",
-      "sha256": "b00336d3dad675505185c08f2f8b6cad5ea7606f120ea809644223850c31dd25"
+      "gitSha": "78633d31a6060e73a6264ac9ea015d2113511c33",
+      "sha256": "1ca25eac8e9259f20ee6922ed835feae14d1fc61e56cd437fcbf18df6ef71503"
     },
     {
       "path": "温度墙策略.txt.sig",
       "size": 129,
-      "mtime": 1785775883,
+      "mtime": 1785781654,
       "domain": "main",
-      "gitSha": "8f0fb6f02fc04c91f3635ebaa1d889b8c83a346e",
-      "sha256": "dbb1fa5a9eb6281a05cc9d4845b71543d55e3f60c2cf33de8c252dc49a645194"
+      "gitSha": "bde3a4d0265a8e4a4ba436cd61bc9f57bef5581d",
+      "sha256": "fe6dfe04c52badad0fa70c67c25a759896499f6e843593a9d718a7ff914068a8"
     },
     {
       "path": "黑名单.md",
