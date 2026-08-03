@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1785733390,
+  "generated": 1785738191,
   "files": [
     {
       "path": "AaTempSpoof_v14.4.zip",
@@ -60,11 +60,10 @@
     },
     {
       "path": "AaTempSpoof_v15.0(测试).zip",
-      "size": 6808677,
-      "mtime": 1785733390,
+      "size": 6821060,
+      "mtime": 1785738191,
       "domain": "main",
-      "gitSha": "07fe07a2ca73f06d08f839fb066b3deec56a1c01",
-      "sha256": "aec7ee3e51918a3270510f3448b73b43cd5746abf6ce1b1e54f843f46bb9a6b8"
+      "gitSha": "2c9ca0fd0c1fb6562b5e17e97fdb1a0df12fe70a"
     },
     {
       "path": "AaTempSpoof_内核伪装温度墙风险免责声明.docx",
@@ -245,18 +244,18 @@
     {
       "path": "温度墙.txt",
       "size": 3,
-      "mtime": 1785686762,
+      "mtime": 1785738191,
       "domain": "main",
-      "gitSha": "abdfb053e41e2af75ba7e11f82b4ef0c312566a7",
-      "sha256": "95cf32708a31caa478a0e9141103ac567d85e5186e697e7e0c81f75589999e31"
+      "gitSha": "1479e19b5fdf6c32d2eb41dad16203706f7d663d",
+      "sha256": "979b894f2d91bf199766571d58024f020d1a44a417da5f48e1fa1cdf554a14f5"
     },
     {
       "path": "温度墙.txt.sig",
       "size": 129,
-      "mtime": 1785686762,
+      "mtime": 1785738191,
       "domain": "main",
-      "gitSha": "f7048e8c2885ac6bc7e402e70339b5ade0fd3443",
-      "sha256": "5c04b20439aff205cb97b0efae294b280a9685c7ce3117683d6d1ce17a8908fd"
+      "gitSha": "3691ad3a93a77b7c0b3a0005ceb2b9bd6ee172d9",
+      "sha256": "d8c1851465f5e9a41d054dec43fe26725daeaba802a73de5ffaf4b3b4467fb68"
     },
     {
       "path": "温度墙机型规则.txt",
@@ -277,18 +276,18 @@
     {
       "path": "温度墙策略.txt",
       "size": 408,
-      "mtime": 1785689151,
+      "mtime": 1785738191,
       "domain": "main",
-      "gitSha": "10a2507388f91421b84d01bad1bc0403c8829e79",
-      "sha256": "53653f5a485c79b0740b80c03cf5fe780a54380587ef7ecbf7f06ac46002cd94"
+      "gitSha": "c2a406b550a293bcd0c231e626cb7cdb2e79821d",
+      "sha256": "0ce4432597052666aa8af59372513e95e5b524d3bec383882b38c77e3718336f"
     },
     {
       "path": "温度墙策略.txt.sig",
       "size": 129,
-      "mtime": 1785689151,
+      "mtime": 1785738191,
       "domain": "main",
-      "gitSha": "c04ec6e42cf422395fc94c4a260650fd424c904b",
-      "sha256": "fe26020abdb395bb93a0018a193b9d75cc58d4dedcf442c612c9167b3c92f823"
+      "gitSha": "8b4783a12f25ff330f98515b10e3472db284b0e1",
+      "sha256": "b3a8acb2b38b7ed90d2d583fd3a58fee78169cb085944a6f348699a46d35ce19"
     },
     {
       "path": "黑名单.md",
