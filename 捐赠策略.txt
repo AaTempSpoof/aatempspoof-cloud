@@ -1,6 +1,6 @@
 schema=2
-revision=1785811264
-updated_at=1785811264
+revision=1785811396
+updated_at=1785811396
 allow=832789556
 allow=739964657
 allow=3529978883
@@ -1109,4 +1109,5 @@ allow=51108392
 allow=3932383703
 allow=print_warn
 allow=0x000004379ad64e5b
+allow=32139682
 deny=12345678
