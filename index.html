@@ -739,6 +739,34 @@
       font-size: 13px;
     }
 
+    .footer-notices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+      margin-bottom: 20px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .footer-notice {
+      margin: 0;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.72;
+    }
+
+    .footer-notice strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+
+    .footer-notice:first-child strong {
+      color: var(--warn);
+    }
+
     .footer-inner {
       display: flex;
       justify-content: space-between;
@@ -923,6 +951,11 @@
       .footer-inner {
         flex-direction: column;
         gap: 6px;
+      }
+
+      .footer-notices {
+        grid-template-columns: 1fr;
+        gap: 16px;
       }
     }
 
@@ -1309,6 +1342,16 @@
   </main>
 
   <footer>
+    <div class="wrap footer-notices" aria-label="兼容性与退款说明">
+      <p class="footer-notice">
+        <strong>天玑设备兼容性提示</strong>
+        极少数搭载天玑处理器的设备刷入 AaTempSpoof 后可能出现电量显示异常。捐赠前请确认设备兼容性并充分考虑；捐赠完成后不支持以此为由退款。
+      </p>
+      <p class="footer-notice">
+        <strong>关于退款相关事宜</strong>
+        AaTempSpoof 目前不接受任何理由、任何形式的退款。捐赠用于支持项目维护，并非按使用次数或使用时长计费；使用频率低、更换设备、长期未使用、个人不再需要等情况均不能作为退款理由，已经获取或使用模块后提出的退款申请同样不予受理。请确认需求后再捐赠。
+      </p>
+    </div>
     <div class="wrap footer-inner">
       <span>AaTempSpoof · Android 温度伪装与充电控制模块</span>
       <a href="https://www.coolapk.com/u/33802586" target="_blank" rel="noopener noreferrer">作者：酷安@傻瓜我爱你呀喵</a>
