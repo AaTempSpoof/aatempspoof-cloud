@@ -296,6 +296,85 @@
       cursor: pointer;
     }
 
+    .announcement-trigger {
+      position: fixed;
+      top: max(12px, env(safe-area-inset-top));
+      right: max(14px, env(safe-area-inset-right));
+      z-index: 25;
+      min-height: 36px;
+      padding: 7px 12px;
+      border: 1px solid #9ccbb4;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .94);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 750;
+      box-shadow: 0 8px 22px rgba(28, 52, 40, .12);
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+
+    .announcement-trigger:hover { background: #edf8f2; }
+    .announcement-trigger:focus-visible { outline: 3px solid rgba(8, 122, 74, .24); outline-offset: 2px; }
+    .announcement-trigger[hidden], .announcement-modal[hidden] { display: none; }
+
+    .announcement-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 40;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(24, 34, 29, .48);
+      animation: announcement-fade-in .16s ease-out;
+    }
+
+    .announcement-dialog {
+      width: min(100%, 520px);
+      max-height: min(78vh, 620px);
+      overflow: auto;
+      border: 1px solid #c6d8ce;
+      border-radius: 12px;
+      background: var(--paper);
+      box-shadow: 0 24px 70px rgba(18, 35, 27, .22);
+      animation: announcement-dialog-in .18s ease-out;
+    }
+
+    .announcement-dialog-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 22px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .announcement-kicker { margin: 0 0 5px; color: var(--green); font-size: 12px; font-weight: 800; }
+    .announcement-dialog h2 { margin: 0; font-size: 22px; line-height: 1.3; }
+
+    .announcement-dismiss {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: #fff;
+      color: var(--muted);
+      font-size: 21px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .announcement-dismiss:hover { border-color: #9ccbb4; color: var(--green-dark); }
+    .announcement-dismiss:focus-visible { outline: 3px solid rgba(8, 122, 74, .24); outline-offset: 2px; }
+    .announcement-body { padding: 20px 22px 22px; color: #3f4d46; font-size: 15px; line-height: 1.75; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .announcement-dialog .primary { width: calc(100% - 44px); margin: 0 22px 22px; }
+
+    @keyframes announcement-fade-in { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes announcement-dialog-in { from { opacity: 0; transform: translateY(8px) scale(.985); } to { opacity: 1; transform: none; } }
+
     footer { padding: 18px 4px 0; color: #7a8780; font-size: 12px; text-align: center; }
 
     @media (max-width: 560px) {
@@ -315,7 +394,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
     }
   </style>
 </head>
@@ -420,6 +499,18 @@
     <footer>一次性注册链接仅供本人使用，请勿转发。</footer>
   </main>
 
+  <button class="announcement-trigger" id="announcementTrigger" type="button" hidden aria-controls="announcementModal">查看公告</button>
+  <div class="announcement-modal" id="announcementModal" hidden>
+    <section class="announcement-dialog" role="dialog" aria-modal="true" aria-labelledby="announcementTitle">
+      <div class="announcement-dialog-head">
+        <div><p class="announcement-kicker">AaTempSpoof 公告</p><h2 id="announcementTitle">请先阅读公告</h2></div>
+        <button class="announcement-dismiss" id="announcementDismiss" type="button" aria-label="关闭公告">×</button>
+      </div>
+      <div class="announcement-body" id="announcementBody"></div>
+      <button class="primary" id="announcementClose" type="button">我已阅读</button>
+    </section>
+  </div>
+
   <script src="cloud-entry.js"></script>
   <script>
     const form = document.getElementById('sponsorForm');
@@ -438,6 +529,11 @@
     const timer = document.getElementById('timer');
     const successMessage = document.getElementById('successMessage');
     const restartButton = document.getElementById('restartButton');
+    const announcementTrigger = document.getElementById('announcementTrigger');
+    const announcementModal = document.getElementById('announcementModal');
+    const announcementBody = document.getElementById('announcementBody');
+    const announcementDismiss = document.getElementById('announcementDismiss');
+    const announcementClose = document.getElementById('announcementClose');
     const minimumRule = document.getElementById('minimumRule');
     const minimumHelp = document.getElementById('minimumHelp');
     const minimumValue = document.getElementById('minimumValue');
@@ -464,10 +560,48 @@
     let statusTimer = 0;
     let countdownTimer = 0;
     let sponsorMinimumCents = 1000;
+    let announcementReady = false;
+    let announcementEnabled = false;
+    let announcementText = '';
+    let announcementShown = false;
+    let announcementBodyOverflow = '';
 
     async function apiFetch(path, options) {
       if (!window.AaTempCloud) throw new Error('云端入口脚本未加载');
       return window.AaTempCloud.request(path, options, 3);
+    }
+
+    function updateAnnouncementTrigger() {
+      announcementTrigger.hidden = !(announcementReady && announcementEnabled && !paymentStage.hidden);
+    }
+
+    function openAnnouncement() {
+      if (!announcementReady || !announcementEnabled || !announcementText || paymentStage.hidden) return;
+      announcementShown = true;
+      announcementBody.textContent = announcementText;
+      announcementModal.hidden = false;
+      announcementBodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      announcementClose.focus({ preventScroll: true });
+    }
+
+    function closeAnnouncement() {
+      announcementModal.hidden = true;
+      document.body.style.overflow = announcementBodyOverflow;
+      announcementTrigger.focus({ preventScroll: true });
+    }
+
+    function maybeShowAnnouncement() {
+      updateAnnouncementTrigger();
+      if (!announcementShown && !paymentStage.hidden) openAnnouncement();
+    }
+
+    function applyAnnouncementConfig(data) {
+      announcementText = typeof data.announcement === 'string' ? data.announcement : '';
+      announcementEnabled = data.announcementEnabled === true && Boolean(announcementText.trim());
+      announcementReady = true;
+      announcementBody.textContent = announcementText;
+      maybeShowAnnouncement();
     }
 
     function sponsorAmountText(cents, fixed) {
@@ -491,7 +625,10 @@
       try {
         const response = await apiFetch('/sponsor/config', { cache: 'no-store' });
         const data = await response.json();
-        if (response.ok && data.ok && !intentId) applySponsorAmount(data.minAmountCents);
+        if (response.ok && data.ok) {
+          if (!intentId) applySponsorAmount(data.minAmountCents);
+          applyAnnouncementConfig(data);
+        }
       } catch (_) {}
     }
 
@@ -551,6 +688,7 @@
       emailSummary.textContent = `注册链接将发送至 ${data.emailMasked || '已登记邮箱'}`;
       form.hidden = true;
       paymentStage.hidden = false;
+      maybeShowAnnouncement();
       beginButton.hidden = true;
       requeueButton.hidden = true;
       paymentContent.hidden = true;
@@ -614,6 +752,7 @@
             intentId = '';
             paymentStage.hidden = true;
             form.hidden = false;
+            updateAnnouncementTrigger();
             formMessage.textContent = '原预约不存在，请重新填写邮箱';
           }
           return;
@@ -690,10 +829,21 @@
       window.location.reload();
     });
 
+    announcementTrigger.addEventListener('click', openAnnouncement);
+    announcementDismiss.addEventListener('click', closeAnnouncement);
+    announcementClose.addEventListener('click', closeAnnouncement);
+    announcementModal.addEventListener('click', event => {
+      if (event.target === announcementModal) closeAnnouncement();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !announcementModal.hidden) closeAnnouncement();
+    });
+
     loadSponsorConfig();
     if (intentId) {
       form.hidden = true;
       paymentStage.hidden = false;
+      maybeShowAnnouncement();
       ensureCountdown();
       pollStatus();
     }
