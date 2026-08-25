@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1787666578,
+  "generated": 1787667969,
   "files": [
     {
       "path": "AaTempSpoof_v14.5.zip",
@@ -56,13 +56,6 @@
       "domain": "main",
       "gitSha": "479af08e01cac82686f7da5313354c2255e0b55d",
       "sha256": "abc0f5f4d9cdbfe0fefd067e4019bf900ff620359da7ae42fceac6e802c163c2"
-    },
-    {
-      "path": "AaTempSpoof_v2.0.3(测试).zip",
-      "size": 47589510,
-      "mtime": 1787666480,
-      "domain": "main",
-      "gitSha": "0d71cf39801458bb65c341cb9bc353e9538e72b8"
     },
     {
       "path": "AaTempSpoof_内核伪装温度墙风险免责声明.docx",
@@ -130,18 +123,18 @@
     {
       "path": "cloud.json",
       "size": 250,
-      "mtime": 1787666578,
+      "mtime": 1787667969,
       "domain": "main",
-      "gitSha": "311f83a5764097f5f3ec53285a450cc3389bc48a",
-      "sha256": "6340f16e058d89744fd21d80a767001e543a59c733d5db352c9fab774a291204"
+      "gitSha": "e15e5d57628bec11302b086fca277da12699f443",
+      "sha256": "52bd0332683f8f05ea8c28543eecd52ed5a0be21dc8c0c18dae95ac38bf51854"
     },
     {
       "path": "cloud.txt",
       "size": 250,
-      "mtime": 1787666578,
+      "mtime": 1787667969,
       "domain": "main",
-      "gitSha": "c209f7d96f822acaeb5189e96513110ee0f7217c",
-      "sha256": "ffc5596798028225ebb4dd929178a6c53ce710c064c5594a6c707ba7203c11a0"
+      "gitSha": "11f27ac28964f690f40375ea19a0bdc6ba19c51d",
+      "sha256": "dd8b363b8e15c3d5f31e8ce826ec399787418f404f512ffcc9fdd428dfba5572"
     },
     {
       "path": "index.html",
