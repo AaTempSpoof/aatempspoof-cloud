@@ -23,7 +23,6 @@
     button:disabled{color:#9aa2af;background:var(--soft)}
     .result{display:none;margin-top:16px;border:1px solid var(--line);border-radius:8px;padding:12px;font-size:14px;line-height:1.55;word-break:break-word}
     .result.ok{display:block;border-color:#b7dfc5;color:var(--ok);background:#f6fff8}
-    .result a{color:inherit;font-weight:700}
     .result.err{display:block;border-color:#efc4c0;color:var(--err);background:#fff7f6}
     .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:var(--shade);padding:18px;z-index:20}
     .modal.show{display:flex}
@@ -331,8 +330,7 @@
         if (!resp.ok || (data && data.ok === false)) {
           throw new Error((data && data.message) || text || ('HTTP ' + resp.status));
         }
-        result.innerHTML = '提交成功，请等待审核。<a href="https://qm.qq.com/q/woNZvvumRO" target="_blank" rel="noopener noreferrer">点击链接加入群聊【小猫咪 喵喵喵²】</a>';
-        result.className = 'result ok';
+        location.href = 'https://qm.qq.com/q/woNZvvumRO';
       } catch (error) {
         const msg = error && error.message ? error.message : String(error || '');
         if (/failed to fetch|networkerror|load failed/i.test(msg)) {
