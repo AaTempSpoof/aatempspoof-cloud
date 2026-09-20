@@ -24,15 +24,15 @@
 </head>
 <body>
   <main>
-    <div class="brand"><b>AaTempSpoof</b><p>云端管理 · 链接控制这台手机</p></div>
-    <div class="route"><span>网站</span><i></i><span>安全隧道</span><i></i><span class="phone">手机</span></div>
+    <div class="brand"><b>AaTempSpoof</b><p>云端管理 · 链接控制电脑主服务器</p></div>
+    <div class="route"><span>网站</span><i></i><span>安全隧道</span><i></i><span class="phone">电脑</span></div>
     <section class="card">
-      <h1>正在连接手机</h1>
+      <h1>正在连接电脑服务器</h1>
       <p class="status" id="status">正在读取当前安全入口，请稍候。</p>
-      <p class="detail" id="detail">手机在线后会自动进入密码页面。</p>
+      <p class="detail" id="detail">电脑在线后会自动进入密码页面。</p>
       <button id="retry" type="button">重新连接</button>
     </section>
-    <p class="foot">固定链接不会直接保存管理密码。手机关机、断网或未开启远程管理时无法连接。</p>
+    <p class="foot">固定链接不会直接保存管理密码。电脑服务器停止或公网隧道断开时无法连接。</p>
   </main>
   <script src="cloud-entry.js"></script>
   <script>
@@ -45,15 +45,15 @@
       running=true;
       retry.classList.remove('show');
       statusEl.textContent='正在读取当前安全入口，请稍候。';
-      detailEl.textContent='手机在线后会自动进入密码页面。';
+      detailEl.textContent='电脑在线后会自动进入密码页面。';
       try{
         if(!window.AaTempCloud)throw new Error('固定入口脚本未加载');
         const base=await window.AaTempCloud.resolve(true);
         statusEl.textContent='已连接，正在进入密码页面。';
         location.replace(base+'/admin');
       }catch(error){
-        statusEl.textContent='暂时无法连接这台手机';
-        detailEl.textContent='请确认手机已开机并联网，稍后重新连接。';
+        statusEl.textContent='暂时无法连接电脑云端服务器';
+        detailEl.textContent='请确认电脑云端服务器和公网隧道正在运行，稍后重新连接。';
         retry.classList.add('show');
       }finally{
         running=false;
