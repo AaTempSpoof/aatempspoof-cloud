@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1790267700,
+  "generated": 1790268095,
   "files": [
     {
       "path": "AaTempSpoof_v14.5.zip",
@@ -138,18 +138,18 @@
     {
       "path": "cloud.json",
       "size": 257,
-      "mtime": 1790267700,
+      "mtime": 1790268095,
       "domain": "main",
-      "gitSha": "9d2d2651f2e47882cf9d0bbb7766a8ec880b9a9c",
-      "sha256": "121816dc996582a0f556a232a09741bdc9b4b7b3b3b5a17261612e2814e267e4"
+      "gitSha": "a884cad89dc72d701f16d96a133de4b863893c13",
+      "sha256": "dc8f82d2394a349efe9dc772afaedebe768ce7cbddbd1e202e092d38b744bd6e"
     },
     {
       "path": "cloud.txt",
       "size": 261,
-      "mtime": 1790267700,
+      "mtime": 1790268095,
       "domain": "main",
-      "gitSha": "3ba83a42cb7dc2a6c10c720323852121c2872faa",
-      "sha256": "a8a623442c6c3e58cb4d1e4bdf7b024cb4455c1a052e96100908c8d1f482eab1"
+      "gitSha": "72edf38f09a51b2c133f24457e6796f8a03ea910",
+      "sha256": "7a323f46d3df8400f39103b92b89ffd7fb6d5111209ce28d3a29a2fecf5c47ba"
     },
     {
       "path": "index.html",
@@ -216,35 +216,35 @@
     },
     {
       "path": "捐赠名单.md",
-      "size": 30636,
-      "mtime": 1790267614,
+      "size": 30654,
+      "mtime": 1790268095,
       "domain": "main",
-      "gitSha": "9b5bdd200f546b1700deac1371f15a922d7557bc",
-      "sha256": "f5688e6a2be7aefac0ff95a4c47352c922726a5a6ef57b292d8b89d64ccb5ee0"
+      "gitSha": "11d88a41c60189607444e2e5f20170008d4a86dd",
+      "sha256": "8d705d494a689b98e775ea071ba781883aebbcb1e7c3de4091f3cbd9ad3a83fe"
     },
     {
       "path": "捐赠名单.md.sig",
       "size": 130,
-      "mtime": 1790267614,
+      "mtime": 1790268095,
       "domain": "main",
-      "gitSha": "248459cba035f0ac70c797975d3097b5e6bf0350",
-      "sha256": "9327df86561a7deb615f3aa33efc77f20b3fe3e7ff9ce92e100ba010596cf240"
+      "gitSha": "f7393791ce47cc1080fb0d911b2042a55d291fda",
+      "sha256": "8d97a4378c4805f6b2f6fcf8ec7d11784bd593e49f5b4bcb10b1068ce3c4a12a"
     },
     {
       "path": "捐赠策略.txt",
-      "size": 42518,
-      "mtime": 1790267614,
+      "size": 42541,
+      "mtime": 1790268095,
       "domain": "main",
-      "gitSha": "a8c9444c4d907be3be708ede0623bd4ccc36695c",
-      "sha256": "4159a6e02e5bb34ff7bf445fecb0e1e2d95ea8d1d5291240de2d852dddb91c91"
+      "gitSha": "c1fff07f42e70188b24244bad058c0c2e854126e",
+      "sha256": "262231ce09d08dbe96fd76a253240aa0e74373301e70459f3a6bb8697c024785"
     },
     {
       "path": "捐赠策略.txt.sig",
       "size": 129,
-      "mtime": 1790267614,
+      "mtime": 1790268095,
       "domain": "main",
-      "gitSha": "bbff61d75a230145fd352968e6d3b23d8e7f9dfa",
-      "sha256": "fa87b7c99854f26c3ae21593f0bfaaa06e3218f3319c3d4cf2386d8a47b33af6"
+      "gitSha": "8244214a189981f87228c4aa3cec5152139592ea",
+      "sha256": "1290e87285d006cb71ef6b7b220e0124a88fc78630b88ae709065fa9d417626b"
     },
     {
       "path": "温度墙.txt",
