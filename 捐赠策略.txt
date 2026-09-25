@@ -1,6 +1,6 @@
 schema=2
-revision=1790327944
-updated_at=1790327944
+revision=1790329483
+updated_at=1790329483
 allow=832789556
 allow=739964657
 allow=3529978883
@@ -2376,6 +2376,7 @@ allow=751576362
 allow=4142760432
 allow=1628906725
 allow=su:commandnotfound
+allow=1628988632
 deny=12345678
 deny=1819426020
 deny=3869985303
