@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1790745091,
+  "generated": 1790745371,
   "files": [
     {
       "path": "AaTempSpoof_v14.5.zip",
@@ -217,10 +217,11 @@
     },
     {
       "path": "update.json",
-      "size": 210,
-      "mtime": 1790426126,
+      "size": 211,
+      "mtime": 1790745371,
       "domain": "main",
-      "gitSha": "b7f02ef95176a1042ae4c8169ff92744f5043c16"
+      "gitSha": "82a15c1353bdde77ee2a9bd5106034f839dc6b3d",
+      "sha256": "3f04143c2b1751fe030a52809285f14612485b764684c394ff24b093fc63d6ef"
     },
     {
       "path": "捐赠名单.md",
