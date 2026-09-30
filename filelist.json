@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1790745371,
+  "generated": 1790745379,
   "files": [
     {
       "path": "AaTempSpoof_v14.5.zip",
@@ -130,10 +130,11 @@
     },
     {
       "path": "changelog.md",
-      "size": 1390,
-      "mtime": 1790426126,
+      "size": 3961,
+      "mtime": 1790745379,
       "domain": "main",
-      "gitSha": "09f82c0c81eb89ba51ddee648bf45da14f6b026b"
+      "gitSha": "e73ee44a86ba5f4f146bc04a7fab32d77ee46ea6",
+      "sha256": "37c4816754b4cdd1cb1307ee903f3ff5724ebd1b60014068177d77b947825475"
     },
     {
       "path": "cloud-entry.js",
