@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1791083392,
+  "generated": 1791084880,
   "files": [
     {
       "path": "AaTempSpoof_v14.5.zip",
@@ -69,7 +69,8 @@
       "size": 5831702,
       "mtime": 1791083392,
       "domain": "main",
-      "gitSha": "f4b09e8a039a759cc13e3c0c83472ba32c1eb799"
+      "gitSha": "f4b09e8a039a759cc13e3c0c83472ba32c1eb799",
+      "sha256": "7cc7586710b149991b8ce8b83b9e6360881836320cbc433160ee28f202bf7ae6"
     },
     {
       "path": "AaTempSpoof_内核伪装温度墙风险免责声明.docx",
@@ -265,35 +266,35 @@
     },
     {
       "path": "温度墙机型规则.txt",
-      "size": 1126,
-      "mtime": 1791047612,
+      "size": 1143,
+      "mtime": 1791084880,
       "domain": "main",
-      "gitSha": "8f18a0d5580bf528e0bb1ef180613112aa75629c",
-      "sha256": "7b67282097bea322e5f900b522522155e4996c81cecec4bc8064cc8a8997fe22"
+      "gitSha": "88d86d5f818a83057dc16a992a4b6bcaaff6d949",
+      "sha256": "836d75f220a82ec2edb429d91db0e574181c5dd4b1ada9481a2b9f25ad1d0498"
     },
     {
       "path": "温度墙机型规则.txt.sig",
       "size": 129,
-      "mtime": 1791047612,
+      "mtime": 1791084880,
       "domain": "main",
-      "gitSha": "324cdd980f74276df94c35841e0d1cebe39facbe",
-      "sha256": "9b09e27a8c494145e17dec4f05f5c6ed48d35a65d968af7e91aa03ad80efea16"
+      "gitSha": "51d7eee7084b843889acfb4835987e438f0983d3",
+      "sha256": "232b3c3e23577585600845e1304211ea9018e16b1ea18b83a6bdcba809cde956"
     },
     {
       "path": "温度墙策略.txt",
-      "size": 1186,
-      "mtime": 1791047612,
+      "size": 1203,
+      "mtime": 1791084880,
       "domain": "main",
-      "gitSha": "0ff3b57278ace001b56ae56c6afbe4b9105139d3",
-      "sha256": "36c2965ac828155c2d2791de19a66bfea076e92a6ee30e9173b6a8b4575e0b5f"
+      "gitSha": "6a1fb1d8036e70347d6a96aa210206321514e128",
+      "sha256": "dacd9f0c460766c6ff5e78ccf1f8bae3a68edb23911b59051b3c48726f37fce3"
     },
     {
       "path": "温度墙策略.txt.sig",
       "size": 129,
-      "mtime": 1791047612,
+      "mtime": 1791084880,
       "domain": "main",
-      "gitSha": "67d6564712370be0585c132b78e8e5708484e8f7",
-      "sha256": "500c8fca6fa464ccec941b2f0e1ad1709d2ee7841c2b015ecd385066bf08c4e9"
+      "gitSha": "c1d316fefd8009efd7af6a7b69d390bb5da2c70c",
+      "sha256": "14efa96d58e98bf5bc23c4b5ec70b4114b2b62cd181e3ad985e76fe11906cac0"
     },
     {
       "path": "黑名单.md",
