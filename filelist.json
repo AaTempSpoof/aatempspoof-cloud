@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1792120342,
+  "generated": 1792120565,
   "files": [
     {
       "path": "AaTempSpoof_v14.5.zip",
@@ -266,35 +266,35 @@
     },
     {
       "path": "温度墙机型规则.txt",
-      "size": 1424,
-      "mtime": 1792120342,
+      "size": 1401,
+      "mtime": 1792120565,
       "domain": "main",
-      "gitSha": "83f7874b6e7e8815ab5de368598a01c36884384c",
-      "sha256": "eb95d7f424174c8b08b688d3923fcebb8d10fab6c7961f6c95143686ee5f0fdb"
+      "gitSha": "c9fa192d53852e08a5febd166f8c2cd25dff4f5f",
+      "sha256": "b3524ba37e7c5e47dda74089181a70ef7dc7670d0903d91830b7877e40b3bc34"
     },
     {
       "path": "温度墙机型规则.txt.sig",
       "size": 129,
-      "mtime": 1792120342,
+      "mtime": 1792120565,
       "domain": "main",
-      "gitSha": "41fe7b6a95f8cfbb36a922709509a990263d8cd4",
-      "sha256": "d2b459e7d7a117edf832b719b67c8b6f5fb3bca481bbea9716ca8eabd718d982"
+      "gitSha": "fba03ed90a1cdc4d678d196fcf1bc8b3e07efe4f",
+      "sha256": "9141d5a5b87f24b78e6217804a15b3ff8b52870eaa5cb4c3083b6524968bff43"
     },
     {
       "path": "温度墙策略.txt",
-      "size": 1484,
-      "mtime": 1792120342,
+      "size": 1461,
+      "mtime": 1792120565,
       "domain": "main",
-      "gitSha": "a8f594a6bbd04a415437921eb8bbf2ea8c710b52",
-      "sha256": "e63d19fe52870b74b1f86b91061fb20113ffa847a4e04fde5280cf581f76df06"
+      "gitSha": "5688567e57801f926b15adcee56e04e3e6191bfb",
+      "sha256": "5a3f4c208d001aa5d746eb219c2d13e71057226006211395f6814b96e3882990"
     },
     {
       "path": "温度墙策略.txt.sig",
       "size": 129,
-      "mtime": 1792120342,
+      "mtime": 1792120565,
       "domain": "main",
-      "gitSha": "93a1a78275d230b7041f341877453e5974168612",
-      "sha256": "6a12035bb8f933d1ed44dbc8304926cb212138d59143f35f0f42405e2f65035a"
+      "gitSha": "207b4733c2faba150dcefde2e472db8de11f701d",
+      "sha256": "2b3219fa3c5a269d49fd0c1d307270b7fd57f1f5a18f5f28bb425eefb3475fcf"
     },
     {
       "path": "黑名单.md",
