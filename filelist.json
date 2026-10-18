@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1792292161,
+  "generated": 1792295945,
   "files": [
     {
       "path": "AaTempSpoof_v14.5.zip",
@@ -311,6 +311,14 @@
       "domain": "main",
       "gitSha": "ecf4a9cf4c168a7e985918bb35905d7ab8e9c55e",
       "sha256": "7e53bac381c52eb18e226bdcb7725157ab3a7f41986692dafb685e802c254a7f"
+    },
+    {
+      "path": "AaTempSpoof_v15.8(测试).zip",
+      "size": 5837045,
+      "mtime": 1792295945,
+      "domain": "main",
+      "gitSha": "415d8a59d3614cb95792949c0bf808bccf746abc",
+      "sha256": "edf26ce2cda040c26f4b72938de46fc64861bbf093ac6f5e4cc110f5ec980fb2"
     }
   ],
   "dirs": [
@@ -318,3 +326,4 @@
     "capabilities"
   ]
 }
+
