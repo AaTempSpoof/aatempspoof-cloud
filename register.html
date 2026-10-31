@@ -317,6 +317,7 @@
       submitBtn.disabled = true;
       submitBtn.textContent = '提交中...';
       showResult('ok', '正在连接审核服务器...');
+      let waitForPublish = false;
       try {
         const resp = await apiFetch('/submit', {
           method: 'POST',
@@ -330,6 +331,11 @@
         if (!resp.ok || (data && data.ok === false)) {
           throw new Error((data && data.message) || text || ('HTTP ' + resp.status));
         }
+        if (data && data.status === 'pending') {
+          waitForPublish = true;
+          showResult('ok', data.message || '审核已通过，等待授权名单发布');
+          return;
+        }
         location.href = 'https://qm.qq.com/q/woNZvvumRO';
       } catch (error) {
         const msg = error && error.message ? error.message : String(error || '');
@@ -339,8 +345,8 @@
           showResult('err', '提交失败: ' + msg);
         }
       } finally {
-        submitBtn.disabled = !emailStatusLoaded;
-        submitBtn.textContent = '提交审核';
+        submitBtn.disabled = waitForPublish ? true : !emailStatusLoaded;
+        submitBtn.textContent = waitForPublish ? '等待名单发布' : '提交审核';
       }
     });
 
