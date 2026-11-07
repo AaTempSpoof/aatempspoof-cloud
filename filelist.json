@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": 1794064121,
+  "generated": 1794064445,
   "files": [
     {
       "path": "AaTempSpoof_v14.5.zip",
@@ -146,18 +146,18 @@
     {
       "path": "cloud.json",
       "size": 250,
-      "mtime": 1794064121,
+      "mtime": 1794064445,
       "domain": "main",
-      "gitSha": "bc40d9e48c583ffcdcc182015adde0cea6230a91",
-      "sha256": "2e00cb5a65a6f0d554afe9424413b5f8b78973ba7de09ea2f8a8cdbb43d95e84"
+      "gitSha": "6ffa1c4bb29c311420240c13d6ae6e13dcd1ada2",
+      "sha256": "1f3fe9741dec9329830117375e22f3ec32755927c213d9cac4b89f40a38d1e0a"
     },
     {
       "path": "cloud.txt",
       "size": 254,
-      "mtime": 1794064121,
+      "mtime": 1794064445,
       "domain": "main",
-      "gitSha": "12b8574bdf2054aebe7a27d7636e94b675f3fd32",
-      "sha256": "83c907d59ba7f0ee86bc7bd2b12b984fd4f16161ad8d4901e1ed89e0bb87b582"
+      "gitSha": "e53b104c71b942faccb9da8fc81cc1e1549ecdc0",
+      "sha256": "ca7964c465692170d60d0173fd948c4c67b5a47767279990b1edeada409be023"
     },
     {
       "path": "donation.cache.v3",
@@ -236,7 +236,8 @@
       "size": 211,
       "mtime": 1794064121,
       "domain": "main",
-      "gitSha": "c78f272373a74bf928277401b0f91ce323ba0a89"
+      "gitSha": "c78f272373a74bf928277401b0f91ce323ba0a89",
+      "sha256": "b7d362b07d15ab8e950995b69dcc9ea9d3f35abea937ae23bfe79cf294ca2ef4"
     },
     {
       "path": "捐赠名单.md",
@@ -249,10 +250,10 @@
     {
       "path": "捐赠名单.md.sig",
       "size": 130,
-      "mtime": 1794064121,
+      "mtime": 1794064445,
       "domain": "main",
-      "gitSha": "d94380b05a2779b7a4bbd75fcf78d05b41958e9b",
-      "sha256": "effda11f101ce7a74a0c019f261e3db75c93c5923d49d0505a03f34a0d02ea9f"
+      "gitSha": "8bad783e06810c957a9d3563d52fa6b6c28f7332",
+      "sha256": "fd73e1a6b666ada8d0ffc4d4831ff02c44fba793a3bae82565f93224cf654648"
     },
     {
       "path": "捐赠策略.txt",
